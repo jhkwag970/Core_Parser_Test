@@ -236,7 +236,8 @@ printf("procedure Id is %s\n", p->id);
 printf("Dec Id is: %s\n", p->ds->d->di->id);
 printf("Assign Id is: %s\n",p->ss->s->ass->id);
 printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
-printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+printf("assign expr is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+printf("assign idx is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
   
 	// Scanning is done, release memory
   scanner_close();
@@ -401,12 +402,11 @@ void parseAssign(struct nodeAssign *ass2){
 void parseIndex(struct nodeIndex *idx2){
 	if(currentToken() == LBRACE){
 		//printf("\ncurrent is %d\n", currentToken());
-
 		//expr
 		nextToken();
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
-		//RPAREN
+		//RBRACE
 		nextToken();
 		//printf("\ncurrent is %d\n", currentToken());
 	}
@@ -447,36 +447,61 @@ void parseExpr(struct nodeExpr *expr2){
 
 void parseTerm(struct nodeTerm *tm2){
 	tm2->fac=(struct nodeFactor*) calloc(1, sizeof(struct nodeFactor));
-
+	//printf("\nTerm current is %d\n", currentToken());
 	parseFactor(tm2->fac);
+
 	int current = nextToken();
 	if(current == MULTIPLY || current == DIVIDE){
 		tm2->tm=(struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 		tm2->math=(char*) calloc(1, sizeof(char));
 		if(current == MULTIPLY){
-			strcpy(expr2->math, "*");
+			strcpy(tm2->math, "*");
 		}else if(current == DIVIDE){
-			strcpy(expr2->math, "/");
+			strcpy(tm2->math, "/");
 		}
 		//term
 		nextToken();
-		parseExpr(expr2->exp);
+		parseTerm(tm2->tm);
 	}else{
 		prevToken();
 	}
 }
 
 void parseFactor(struct nodeFactor *fac2){
-	//printf("\ncurrent is %d\n",currentToken());
-	if(currentToken()==ID){
-		//IFnextTokent() == LBRACE ELSE
-	}else if(currentToken()==CONST){
+	//printf("\nFac current is %d\n",currentToken());
+	int current = currentToken();
+	if(current==ID){
+
+		char value[10];
+		getId(value);
+		fac2->id=(char*) calloc(10, sizeof(char));
+		strcpy(fac2->id, value);
+
+		int current_2=nextToken();
+		if(current_2==LBRACE){
+			//expr
+			nextToken();
+
+			fac2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+			parseExpr(fac2->exp);
+
+			//RBRACE
+			nextToken();
+		}
+		
+	}else if(current==CONST){
 		int value = getConst();
 		//printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
-	}else if(currentToken()==LPAREN){
+	}else if(current==LPAREN){
+		//expr
+		nextToken();
+		fac2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+		parseExpr(fac2->exp);
 
-	}else if(currentToken()==IN){
+		//RPAREN
+		nextToken();
+	}else if(current==IN){
 
 	}
 
