@@ -22,6 +22,7 @@ struct nodeFactor{ //fac
 
 struct nodeTerm{ //tm
     struct nodeFactor *fac;
+    char* math;
     struct nodeTerm *tm;
 };
 

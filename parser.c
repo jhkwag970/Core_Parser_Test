@@ -147,24 +147,96 @@ void Test_scanner(char* filename){
     // Advance to the next token
     nextToken();
   }
-//1.code  
+//x:=10;
 //   printf("procedure Id is %s\n", p->id);
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
 //   printf("Assign Id is: %s\n",p->ss->s->ass->id);
 //   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
 
-//2.code  
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
-  printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->exp->tm->fac->cnt));
+		//   PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 10
 
-//simple out(4) test
+//x:=0-10; 
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->math);
+//   printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 0
+		// math1 is: -
+		// expr2 is: 10
+
+//x:=3-2+1; 
+// printf("procedure Id is %s\n", p->id);
+// printf("Dec Id is: %s\n", p->ds->d->di->id);
+// printf("Assign Id is: %s\n",p->ss->s->ass->id);
+// printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+// printf("math1 is: %s\n",p->ss->s->ass->exp->math);
+// printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
+// printf("math2 is: %s\n",(p->ss->s->ass->exp->exp->math));
+// printf("expr3 is: %d\n",(p->ss->s->ass->exp->exp->exp->tm->fac->cnt));
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: -
+		// expr2 is: 2
+		// math2 is: +
+		// expr3 is: 1
+
+//out(4);
 //   printf("procedure Id is %s\n", p->id);
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
 //   printf("out expr is: %d\n",p->ss->s->out->exp->tm->fac->cnt);
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// out expr is: 4
+
+//x[2]:=3;
+// printf("procedure Id is %s\n", p->id);
+// printf("Dec Id is: %s\n", p->ds->d->di->id);
+// printf("Assign Id is: %s\n",p->ss->s->ass->id);
+// printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
+// printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// idx1 is: 2
+		// expr1 is: 3  
+
+//x:=new record[3]; 
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+
+//x[2]:=x[1];
+printf("procedure Id is %s\n", p->id);
+printf("Dec Id is: %s\n", p->ds->d->di->id);
+printf("Assign Id is: %s\n",p->ss->s->ass->id);
+printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
+printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
   
 	// Scanning is done, release memory
   scanner_close();
@@ -270,11 +342,13 @@ void parseAssign(struct nodeAssign *ass2){
 	//assign ID
 	char value[10];
 	getId(value);
+	//printf("\nid is %s\n", value);
 	ass2->id=(char*) calloc(10, sizeof(char));
 	strcpy(ass2->id, value);
 
 	int current = nextToken();
-	if(current == LPAREN){
+	//printf("\ncurrent is %d", current);
+	if(current == LBRACE){
 		//id <index> := <expr> ;
 		ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 		ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -286,6 +360,7 @@ void parseAssign(struct nodeAssign *ass2){
 		parseExpr(ass2->exp);
 	}else if(current == ASSIGN){
 		int current_2 = nextToken();
+		//printf("\ncurrent is %d", current_2);
 
 		if(current_2==CONST || current_2==ID){
 			//id := <expr> ;
@@ -298,11 +373,14 @@ void parseAssign(struct nodeAssign *ass2){
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 			//record
 			nextToken();
-			//LPAREN
+			//LBRACE
 			nextToken();
 			//expr
 			nextToken();
+			//printf("\ncurrent is %d", currentToken());
 			parseExpr(ass2->exp);
+			//RBRACE
+			nextToken();
 		}else if(current_2==RECORD){
 			//id := record id; 
 			//id
@@ -321,11 +399,16 @@ void parseAssign(struct nodeAssign *ass2){
 }
 
 void parseIndex(struct nodeIndex *idx2){
-	if(currentToken() == LPAREN){
+	if(currentToken() == LBRACE){
+		//printf("\ncurrent is %d\n", currentToken());
+
+		//expr
+		nextToken();
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
 		//RPAREN
-		//nextToken();
+		nextToken();
+		//printf("\ncurrent is %d\n", currentToken());
 	}
 	//epsilon
 	// else if (currentToken() == CONST){
@@ -340,6 +423,7 @@ void parseIndex(struct nodeIndex *idx2){
 void parseExpr(struct nodeExpr *expr2){
 	expr2->tm = (struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 
+	//printf("\ncurrent is %d\n", currentToken());
 	parseTerm(expr2->tm);
 	//+ or -
 	int current = nextToken();
@@ -357,6 +441,7 @@ void parseExpr(struct nodeExpr *expr2){
 	}else{
 		prevToken();
 	}
+	//printf("\ncurrent is %d", currentToken());
 	
 }
 
@@ -364,15 +449,30 @@ void parseTerm(struct nodeTerm *tm2){
 	tm2->fac=(struct nodeFactor*) calloc(1, sizeof(struct nodeFactor));
 
 	parseFactor(tm2->fac);
+	int current = nextToken();
+	if(current == MULTIPLY || current == DIVIDE){
+		tm2->tm=(struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
+		tm2->math=(char*) calloc(1, sizeof(char));
+		if(current == MULTIPLY){
+			strcpy(expr2->math, "*");
+		}else if(current == DIVIDE){
+			strcpy(expr2->math, "/");
+		}
+		//term
+		nextToken();
+		parseExpr(expr2->exp);
+	}else{
+		prevToken();
+	}
 }
 
 void parseFactor(struct nodeFactor *fac2){
-	
+	//printf("\ncurrent is %d\n",currentToken());
 	if(currentToken()==ID){
-		//IFnextTokent() == LPAREN ELSE
+		//IFnextTokent() == LBRACE ELSE
 	}else if(currentToken()==CONST){
 		int value = getConst();
-		printf("\nvalue is%d\n", value);
+		//printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
 	}else if(currentToken()==LPAREN){
 

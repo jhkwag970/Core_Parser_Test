@@ -247,8 +247,10 @@ int currentToken() {
     return token;
 }
 
+// move pointer and token to previous token
 void prevToken(){
-    fseek( fp, -1, SEEK_CUR);
+    fseek( fp, -2, SEEK_CUR);
+    nextToken();
 }
 
 // Finds the next token (or the first token when called by scanner_open)
