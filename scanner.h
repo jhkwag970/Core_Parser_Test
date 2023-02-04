@@ -26,6 +26,9 @@ int scanner_open(char* filename);
 // Frees memory allocated for the scanner
 int scanner_close();
 
+// move pointer to previous token
+void prevToken();
+
 // Returns the current token (enum value)
 int currentToken();
 

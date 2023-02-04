@@ -1,0 +1,5 @@
+procedure test1 is
+	integer x;
+begin
+	x:=0-10;
+end

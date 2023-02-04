@@ -19,7 +19,7 @@ int main() {
   // *a=1009;
   // printf("%d\n", *a);
 
-  Test_scanner("Correct/1.code");
+  Test_scanner("Correct/0_test.code");
 
   //  struct nodeProcedure *p = (struct nodeProcedure*) calloc(1, sizeof(struct nodeProcedure));
   //  if(p->ds == NULL){

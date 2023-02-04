@@ -24,6 +24,7 @@ void parseIndex();
 void parseExpr();
 void parseTerm();
 void parseFactor();
+void parseCond();
 
 
 
@@ -147,10 +148,10 @@ void Test_scanner(char* filename){
     nextToken();
   }
   printf("procedure Id is %s\n", p->id);
-  printf("DEC Id2 is: %s\n", p->ds->d->di->id);
-  printf("Assign Id3 is: %s\n",p->ss->s->ass->id);
-  //printf("epsilon is: %s\n",p->ss->s->ass->idx->eps);
-  printf("Const is: %d\n",(p->ss->s->ass->exp->tm->fac->cnt));
+  printf("Dec Id is: %s\n", p->ds->d->di->id);
+  printf("Assign Id is: %s\n",p->ss->s->ass->id);
+  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+  printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
   
 	// Scanning is done, release memory
   scanner_close();
@@ -199,6 +200,9 @@ void parseProcedure(){
 	
 	parseDeclSeq(p->ds);
 	parseStmtSeq(p->ss);
+
+	//END
+	nextToken();
 }
 
 void parseDeclSeq(struct nodeDeclSeq *ds2){
@@ -222,6 +226,8 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
 
 	parseStmt(ss2->s);
+	//END or Not
+	nextToken();
 	if(currentToken() != END){
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2);
@@ -268,7 +274,7 @@ void parseAssign(struct nodeAssign *ass2){
 	}else if(current == ASSIGN){
 		int current_2 = nextToken();
 
-		if(current_2==CONST){
+		if(current_2==CONST || current_2==ID){
 			//id := <expr> ;
 			ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -276,13 +282,28 @@ void parseAssign(struct nodeAssign *ass2){
 			parseExpr(ass2->exp);
 		}else if(current_2==NEW){
 			//id := new record [<expr>];
-
+			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+			//record
+			nextToken();
+			//LPAREN
+			nextToken();
+			//expr
+			nextToken();
+			parseExpr(ass2->exp);
 		}else if(current_2==RECORD){
-			// id := record id; 
+			//id := record id; 
+			//id
+			int id2 = nextToken();
+			char value[10];
+			getId(value);
+			ass2->id2=(char*) calloc(10, sizeof(char));
+			strcpy(ass2->id2, value);
 		}
-		//parseIndex
-		//
 	}
+
+	//semi-colon
+	nextToken();
+	//printf("\nthis is %d\n", nextToken());
 	
 }
 
@@ -290,18 +311,40 @@ void parseIndex(struct nodeIndex *idx2){
 	if(currentToken() == LPAREN){
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
+		//RPAREN
+		//nextToken();
 	}
+	//epsilon
 	// else if (currentToken() == CONST){
 	// 	char value[1];
 	// 	idx2->eps=(char*) calloc(10, sizeof(char));
 	// 	strcpy(idx2->eps, "eps");
 	// }
+
+
 }
 
 void parseExpr(struct nodeExpr *expr2){
 	expr2->tm = (struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 
 	parseTerm(expr2->tm);
+	//+ or -
+	int current = nextToken();
+	if(current == ADD || current == SUBTRACT){
+		expr2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+		expr2->math=(char*) calloc(1, sizeof(char));
+		if(current == ADD){
+			strcpy(expr2->math, "+");
+		}else if(current == SUBTRACT){
+			strcpy(expr2->math, "-");
+		}
+		//expr
+		nextToken();
+		parseExpr(expr2->exp);
+	}else{
+		prevToken();
+	}
+	
 }
 
 void parseTerm(struct nodeTerm *tm2){
@@ -316,6 +359,7 @@ void parseFactor(struct nodeFactor *fac2){
 		//IFnextTokent() == LPAREN ELSE
 	}else if(currentToken()==CONST){
 		int value = getConst();
+		//printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
 	}else if(currentToken()==LPAREN){
 
@@ -323,19 +367,45 @@ void parseFactor(struct nodeFactor *fac2){
 
 	}
 
-	//semi colon
-	nextToken();
-	//END or other stmt-seq
-	nextToken();
 }
 
-void parseIf(){
+void parseIf(struct nodeIf *i){
+	//condition
+	nextToken();
+	i->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
+	parseCond(i->c);
+	//then
+	nextToken();
+	i->sq=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+	parseStmtSeq(i->sq);
+	//else or end
+	int current = nextToken();
+	if(current == ELSE){
+		i->sq2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+		parseStmtSeq(i->sq2);
+		//END
+		nextToken();
+	}
+}
+
+void parseCond(struct nodeCond *c){
+
 }
 
 void parseLoop(){
 }
 
-void parseOut(){
+void parseOut(struct nodeOut *out){
+	//LPAREN
+	nextToken();
+	//exp
+	nextToken();
+	out->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+	parseExpr(out->exp);
+	//RPAREN
+	nextToken();
+	//semi-colon
+	nextToken();
 }
 
 

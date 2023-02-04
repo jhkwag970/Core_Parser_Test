@@ -247,6 +247,10 @@ int currentToken() {
     return token;
 }
 
+void prevToken(){
+    fseek( fp, -1, SEEK_CUR);
+}
+
 // Finds the next token (or the first token when called by scanner_open)
 int nextToken(){
     int first=1;

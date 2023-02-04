@@ -65,6 +65,7 @@ struct nodeAssign{ //ass
     char *id;
     struct nodeIndex *idx;
     struct nodeExpr *exp;
+    char *id2;
 };
 
 
