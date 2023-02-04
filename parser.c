@@ -147,11 +147,24 @@ void Test_scanner(char* filename){
     // Advance to the next token
     nextToken();
   }
+//1.code  
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+
+//2.code  
   printf("procedure Id is %s\n", p->id);
   printf("Dec Id is: %s\n", p->ds->d->di->id);
   printf("Assign Id is: %s\n",p->ss->s->ass->id);
   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
   printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
+  printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->exp->tm->fac->cnt));
+
+//simple out(4) test
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("out expr is: %d\n",p->ss->s->out->exp->tm->fac->cnt);
   
 	// Scanning is done, release memory
   scanner_close();
@@ -303,7 +316,7 @@ void parseAssign(struct nodeAssign *ass2){
 
 	//semi-colon
 	nextToken();
-	//printf("\nthis is %d\n", nextToken());
+	//printf("\nthis is %d\n",currentToken());
 	
 }
 
@@ -359,7 +372,7 @@ void parseFactor(struct nodeFactor *fac2){
 		//IFnextTokent() == LPAREN ELSE
 	}else if(currentToken()==CONST){
 		int value = getConst();
-		//printf("\nvalue is%d\n", value);
+		printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
 	}else if(currentToken()==LPAREN){
 
