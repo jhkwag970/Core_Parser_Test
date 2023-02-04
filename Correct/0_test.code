@@ -1,5 +1,5 @@
 procedure test1 is
 	integer x;
 begin
-	x[2]:=x[1];
+	x:=10; 
 end

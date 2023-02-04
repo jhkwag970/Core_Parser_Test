@@ -148,10 +148,10 @@ void Test_scanner(char* filename){
     nextToken();
   }
 //x:=10;
-//   printf("procedure Id is %s\n", p->id);
-//   printf("Dec Id is: %s\n", p->ds->d->di->id);
-//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
-//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+  printf("procedure Id is %s\n", p->id);
+  printf("Dec Id is: %s\n", p->ds->d->di->id);
+  printf("Assign Id is: %s\n",p->ss->s->ass->id);
+  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
 
 		//   PROCEDURE
 		// procedure Id is test1
@@ -232,14 +232,67 @@ void Test_scanner(char* filename){
 		// expr1 is: 3
 
 //x[2]:=x[1];
-printf("procedure Id is %s\n", p->id);
-printf("Dec Id is: %s\n", p->ds->d->di->id);
-printf("Assign Id is: %s\n",p->ss->s->ass->id);
-printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
-printf("assign expr is: %s\n",p->ss->s->ass->exp->tm->fac->id);
-printf("assign idx is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
-  
+// printf("procedure Id is %s\n", p->id);
+// printf("Dec Id is: %s\n", p->ds->d->di->id);
+// printf("Assign Id is: %s\n",p->ss->s->ass->id);
+// printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
+// printf("assign expr is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+// printf("assign idx is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// idx1 is: 2
+		// assign expr is: x
+		// assign idx is: 1
+
+//x := in();
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+
+		//   PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: in
 	// Scanning is done, release memory
+
+//x := (3+2);
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->fac->exp->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->exp->exp->tm->fac->cnt);
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: +
+		// expr1 is: 2
+
+//x:=x;
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+
+		// PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: x
+
+
+
+
+
+
   scanner_close();
 }
 
@@ -276,6 +329,7 @@ void parseProcedure(){
 	p->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 
 	assignId();
+	//printf("\ncurrent is %d\n", currentToken());
 	//check nextToken is IS
 	if (nextToken() != IS){
 		//error
@@ -283,8 +337,9 @@ void parseProcedure(){
 		//current Token is INTEGER or RECORD
 		nextToken();
 	}
-	
+	//printf("\ncurrent is %d\n", currentToken());
 	parseDeclSeq(p->ds);
+	//printf("\ncurrent is %d", currentToken());
 	parseStmtSeq(p->ss);
 
 	//END
@@ -297,7 +352,7 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 		printf("Error\n");
 	}
 	ds2->d=(struct nodeDecl*) calloc(1, sizeof(struct nodeDecl));
-
+	//printf("\ncurrent is %d\n", currentToken());
 	parseDecl(ds2->d);
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
@@ -309,8 +364,9 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 }
 
 void parseStmtSeq(struct nodeStmtSeq *ss2){
+	//printf("\ncurrent is %d", currentToken());
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
-
+	
 	parseStmt(ss2->s);
 	//END or Not
 	nextToken();
@@ -322,7 +378,9 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 
 void parseStmt(struct nodeStmt *s2){
 
+	
 	int current=currentToken();
+	
 	if(current==ID){
 		s2->ass=(struct nodeAssign*) calloc(1, sizeof(struct nodeAssign));
 		parseAssign(s2->ass);
@@ -340,15 +398,18 @@ void parseStmt(struct nodeStmt *s2){
 
 void parseAssign(struct nodeAssign *ass2){
 
+	
 	//assign ID
+	//printf("\ncurrent is %d", currentToken());
 	char value[10];
 	getId(value);
 	//printf("\nid is %s\n", value);
 	ass2->id=(char*) calloc(10, sizeof(char));
 	strcpy(ass2->id, value);
 
+	
 	int current = nextToken();
-	//printf("\ncurrent is %d", current);
+	
 	if(current == LBRACE){
 		//id <index> := <expr> ;
 		ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
@@ -363,12 +424,15 @@ void parseAssign(struct nodeAssign *ass2){
 		int current_2 = nextToken();
 		//printf("\ncurrent is %d", current_2);
 
-		if(current_2==CONST || current_2==ID){
+		if(current_2==CONST || current_2==ID || current_2==IN || current_2==LPAREN){
 			//id := <expr> ;
+			//printf("\ncurrent is %d", current_2);	
+			//printf("\ncurrent is %d", currentToken());	
 			ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 			parseIndex(ass2->idx);
 			parseExpr(ass2->exp);
+			
 		}else if(current_2==NEW){
 			//id := new record [<expr>];
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -400,6 +464,7 @@ void parseAssign(struct nodeAssign *ass2){
 }
 
 void parseIndex(struct nodeIndex *idx2){
+
 	if(currentToken() == LBRACE){
 		//printf("\ncurrent is %d\n", currentToken());
 		//expr
@@ -410,6 +475,7 @@ void parseIndex(struct nodeIndex *idx2){
 		nextToken();
 		//printf("\ncurrent is %d\n", currentToken());
 	}
+	//printf("\nIndex current is %d\n", currentToken());
 	//epsilon
 	// else if (currentToken() == CONST){
 	// 	char value[1];
@@ -423,10 +489,11 @@ void parseIndex(struct nodeIndex *idx2){
 void parseExpr(struct nodeExpr *expr2){
 	expr2->tm = (struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 
-	//printf("\ncurrent is %d\n", currentToken());
+	//printf("\nExpr current is %d\n", currentToken());
 	parseTerm(expr2->tm);
 	//+ or -
 	int current = nextToken();
+	//printf("\n+ current is %d\n", current);
 	if(current == ADD || current == SUBTRACT){
 		expr2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		expr2->math=(char*) calloc(1, sizeof(char));
@@ -451,6 +518,7 @@ void parseTerm(struct nodeTerm *tm2){
 	parseFactor(tm2->fac);
 
 	int current = nextToken();
+	
 	if(current == MULTIPLY || current == DIVIDE){
 		tm2->tm=(struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 		tm2->math=(char*) calloc(1, sizeof(char));
@@ -465,6 +533,7 @@ void parseTerm(struct nodeTerm *tm2){
 	}else{
 		prevToken();
 	}
+	//printf("\ncurrent is %d", currentToken());
 }
 
 void parseFactor(struct nodeFactor *fac2){
@@ -487,6 +556,8 @@ void parseFactor(struct nodeFactor *fac2){
 
 			//RBRACE
 			nextToken();
+		}else{
+			prevToken();
 		}
 		
 	}else if(current==CONST){
@@ -502,7 +573,17 @@ void parseFactor(struct nodeFactor *fac2){
 		//RPAREN
 		nextToken();
 	}else if(current==IN){
+		//printf("\nIN current is %d\n", currentToken());
+		// fac2->id=(char*) calloc(10, sizeof(char));
+		// strcpy(fac2->id, "in");
+		//printf("\nIN2 current is %d\n", currentToken());
 
+		//LPAREN
+		nextToken();
+		
+		//RPAREN
+		nextToken();
+		
 	}
 
 }

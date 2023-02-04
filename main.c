@@ -12,7 +12,7 @@
 
 int main() {  
 
-	//scanner("Correct/1.code");
+	//scanner("Correct/0_test.code");
 
   // struct nodeProcedure *p;
   // int *a = (int*) calloc(1, sizeof(int));;
