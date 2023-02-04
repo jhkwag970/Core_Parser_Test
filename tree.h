@@ -1,0 +1,108 @@
+#ifndef TREE_H
+#define TREE_H
+
+/*
+*
+* Define structs to serve as you tree nodes
+*
+*/
+struct nodeExpr{ //exp
+    struct nodeTerm *tm;
+    char* math;
+    struct nodeExpr *exp;
+};
+
+
+struct nodeFactor{ //fac
+    char *id;
+    int cnt;
+    struct nodeExpr *exp;
+};
+
+
+struct nodeTerm{ //tm
+    struct nodeFactor *fac;
+    struct nodeTerm *tm;
+};
+
+
+struct nodeCmpr{ //cmp
+    struct nodeExpr *exp;
+    char *sign;
+    struct nodeExpr *exp2;
+};
+
+
+struct nodeCond{ //con
+    struct nodeCmpr *cmp;
+    char *sign;
+    struct nodeCond *cd;
+};
+
+
+struct nodeLoop{ //lp
+    struct nodeCond *con;
+    struct nodeStmtSeq *ss;
+};
+
+
+struct nodeIf{ //i
+    struct nodeCond *c;
+    struct nodeStmtSeq *sq;
+    struct nodeStmtSeq *sq2;
+};
+
+struct nodeOut{ //out
+    struct nodeExpr *exp;
+};
+
+struct nodeIndex{ //idx
+    struct nodeExpr *exp;
+};
+
+
+struct nodeAssign{ //ass
+    char *id;
+    struct nodeIndex *idx;
+    struct nodeExpr *exp;
+};
+
+
+struct nodeStmt{ //s
+    struct nodeAssign *ass;
+    struct nodeIf *i;
+    struct nodeLoop * lp; //**
+    struct nodeOut *out;
+};
+
+struct nodeDeclRecord{ //dr
+    char *id;
+};
+
+struct nodeDeclInteger{ //di
+    char *id;
+};
+
+struct nodeDecl{ //d
+    struct nodeDeclInteger *di;
+    struct nodeDeclRecord *dr;
+};
+
+struct nodeStmtSeq{ //ss
+    struct nodeStmt *s;
+    struct nodeStmtSeq *ss;
+};
+
+struct nodeDeclSeq{ //ds
+    struct nodeDecl* d;
+    struct nodeDeclSeq* ds;
+};
+
+
+struct nodeProcedure {
+  char* id;
+  struct nodeDeclSeq* ds;
+  struct nodeStmtSeq* ss;
+};
+
+#endif
