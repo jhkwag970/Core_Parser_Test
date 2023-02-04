@@ -148,10 +148,10 @@ void Test_scanner(char* filename){
     nextToken();
   }
 //x:=10;
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
 
 		//   PROCEDURE
 		// procedure Id is test1
@@ -287,8 +287,15 @@ void Test_scanner(char* filename){
 		// Dec Id is: x
 		// Assign Id is: x
 		// expr1 is: x
-
-
+//x:=record x; 
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// Assign Id is: y
 
 
 
@@ -312,6 +319,7 @@ void parser(){
 	}else{
 		//error
 	}
+	
 }
 
 //assign procedure Id to procedure node
@@ -341,9 +349,8 @@ void parseProcedure(){
 	parseDeclSeq(p->ds);
 	//printf("\ncurrent is %d", currentToken());
 	parseStmtSeq(p->ss);
-
-	//END
-	nextToken();
+	
+	//printf("\ncurrent is %d", currentToken());
 }
 
 void parseDeclSeq(struct nodeDeclSeq *ds2){
@@ -370,6 +377,8 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	parseStmt(ss2->s);
 	//END or Not
 	nextToken();
+	
+	//printf("\ncurrent is %d", currentToken());
 	if(currentToken() != END){
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2);
@@ -394,6 +403,7 @@ void parseStmt(struct nodeStmt *s2){
 		s2->out=(struct nodeOut*) calloc(1, sizeof(struct nodeOut));
 		parseOut(s2->out);
 	}
+	
 }
 
 void parseAssign(struct nodeAssign *ass2){
@@ -449,14 +459,17 @@ void parseAssign(struct nodeAssign *ass2){
 		}else if(current_2==RECORD){
 			//id := record id; 
 			//id
-			int id2 = nextToken();
+			nextToken();
 			char value[10];
 			getId(value);
+			//printf("\nid is %s\n", value);
 			ass2->id2=(char*) calloc(10, sizeof(char));
 			strcpy(ass2->id2, value);
+			// printf("\nvalue is %s", ass2->id2);
+			// printf("\nvalue is %s", ass2->id);
 		}
 	}
-
+	//printf("\nthis is %d\n",currentToken());
 	//semi-colon
 	nextToken();
 	//printf("\nthis is %d\n",currentToken());
