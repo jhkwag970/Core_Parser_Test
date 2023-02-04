@@ -34,15 +34,15 @@ struct nodeCmpr{ //cmp
 };
 
 
-struct nodeCond{ //con
+struct nodeCond{ //c
     struct nodeCmpr *cmp;
     char *sign;
-    struct nodeCond *cd;
+    struct nodeCond *c;
 };
 
 
 struct nodeLoop{ //lp
-    struct nodeCond *con;
+    struct nodeCond *c;
     struct nodeStmtSeq *ss;
 };
 

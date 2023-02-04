@@ -25,6 +25,7 @@ void parseExpr();
 void parseTerm();
 void parseFactor();
 void parseCond();
+void parseCmpr();
 
 
 
@@ -292,13 +293,127 @@ void Test_scanner(char* filename){
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
 //   printf("Assign Id is: %s\n",p->ss->s->ass->id);
 //   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
+
 		// procedure Id is test1
 		// Dec Id is: x
 		// Assign Id is: x
 		// Assign Id is: y
+// x :=3*2;
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
 
+		//   procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: *
+		// expr1 is: 2
 
+//x :=3/2;
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
 
+		//   procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: /
+		// expr1 is: 2
+
+//x :=x :=3*2/1;
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr2 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("math2 is: %s\n",p->ss->s->ass->exp->tm->tm->math);
+//   printf("exp3 is: %d\n",p->ss->s->ass->exp->tm->tm->tm->fac->cnt);
+
+		//   procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: *
+		// expr2 is: 2
+		// math2 is: /
+		// exp3 is: 1
+
+//x :=3*2+1;
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("expr1 is: %s\n",p->ss->s->ass->exp->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->exp->tm->fac->cnt);
+
+		//   PROCEDURE
+		// procedure Id is test1
+		// Dec Id is: x
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: *
+		// expr1 is: 2
+		// expr1 is: +
+		// expr1 is: 1
+
+//integer x and record y
+//x :=3*2+1;
+//y:=0-10; 
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//   printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
+
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->exp->tm->fac->cnt);
+
+//   printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
+
+		//   Dec int Id is: x
+		// Dec rec Id is: y
+		// Assign Id is: x
+		// expr1 is: 3
+		// math1 is: *
+		// expr1 is: 2
+		// math1 is: +
+		// expr1 is: 1
+		// Assign Id2 is: y
+		// expr is2: 0
+		// math is2: -
+		// expr is2: 10
+
+//int x rec y
+//	x:=record z; 
+//	y:=0-10; 
+
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//   printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
+
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
+
+//   printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
 
   scanner_close();
 }
@@ -361,13 +476,15 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 	ds2->d=(struct nodeDecl*) calloc(1, sizeof(struct nodeDecl));
 	//printf("\ncurrent is %d\n", currentToken());
 	parseDecl(ds2->d);
+	nextToken();
+	//printf("\ncurrent is %d\n", currentToken());
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 		parseDeclSeq(ds2->ds);
+		nextToken();
 	}
 
-	//BEGIN일 경우 stmt 문 시작
-	nextToken();
+	//printf("\ncurrent is %d\n", currentToken());
 }
 
 void parseStmtSeq(struct nodeStmtSeq *ss2){
@@ -376,12 +493,13 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	
 	parseStmt(ss2->s);
 	//END or Not
+	//printf("\ncurrent is %d\n",currentToken());
 	nextToken();
-	
+	//printf("\ncurrent is %d\n",currentToken());
 	//printf("\ncurrent is %d", currentToken());
 	if(currentToken() != END){
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
-		parseStmtSeq(ss2);
+		parseStmtSeq(ss2->ss);
 	}
 }
 
@@ -601,30 +719,73 @@ void parseFactor(struct nodeFactor *fac2){
 
 }
 
-void parseIf(struct nodeIf *i){
+void parseIf(struct nodeIf *i2){
 	//condition
 	nextToken();
-	i->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
-	parseCond(i->c);
+	i2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
+	parseCond(i2->c);
 	//then
 	nextToken();
-	i->sq=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
-	parseStmtSeq(i->sq);
+	i2->sq=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+	parseStmtSeq(i2->sq);
 	//else or end
 	int current = nextToken();
 	if(current == ELSE){
-		i->sq2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
-		parseStmtSeq(i->sq2);
+		i2->sq2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+		parseStmtSeq(i2->sq2);
 		//END
 		nextToken();
 	}
 }
 
-void parseCond(struct nodeCond *c){
+void parseCond(struct nodeCond *c2){
+	int current = currentToken();
+	if(current==CONST || current==ID || current==IN || current==LPAREN){
+		c2->cmp=(struct nodeCmpr*) calloc(1, sizeof(struct nodeCmpr));
+		parseCmpr(c2->cmp);
 
+		int current_2= nextToken();
+		if(current_2==OR || current_2==AND){
+
+			c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
+			c2->sign=(char*) calloc(1, sizeof(char));
+			parseCond(c2->c);
+
+			if(current_2==OR){
+				strcpy(c2->sign, "OR");
+			}else if(current_2==AND){
+				strcpy(c2->sign, "AND");
+			}
+		}else{
+			prevToken();
+		}
+
+	}else if(current ==NOT){
+
+	}
 }
 
-void parseLoop(){
+void parseLoop(struct nodeLoop *lp2){
+}
+
+void parseCmpr(struct nodeCmpr  *cmp2){
+	cmp2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+	cmp2->exp2=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
+	cmp2->sign =(char*) calloc(1, sizeof(char));
+	parseExpr(cmp2->exp);
+
+	//sign = or <
+	int current=nextToken();
+	if(current == EQUAL){
+		strcpy(cmp2->sign, "=");
+	}else if (current == LESS){
+		strcpy(cmp2->sign, "<");
+	}
+
+	//expr
+	nextToken();
+
+	parseExpr(cmp2->exp2);
 }
 
 void parseOut(struct nodeOut *out){
@@ -660,8 +821,6 @@ void parseDeclInteger(struct nodeDeclInteger *di2){
 	strcpy(di2->id, value);
 	//semi-colon
 	nextToken();
-	//BEGIN or INTEGER or RECORD
-	nextToken();
 }
 
 void parseDeclRecord(struct nodeDeclRecord *dr2){
@@ -671,8 +830,6 @@ void parseDeclRecord(struct nodeDeclRecord *dr2){
 	dr2->id=(char*) calloc(10, sizeof(char));
 	strcpy(dr2->id, value);
 	//semi-colon
-	nextToken();
-	//BEGIN or INTEGER or RECORD
 	nextToken();
 
 }
