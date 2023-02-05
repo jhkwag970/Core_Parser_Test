@@ -133,6 +133,16 @@ void Test_scanner(char* filename){
   scanner_open(filename);
   //scanner_open("Correct/1.code");
 
+//   printf("%d\n",currentToken()); //33 x ID
+//   nextToken();
+//   printf("%d\n",currentToken()); //21 := ASSIGN
+//   nextToken();
+//   printf("%d\n",currentToken()); //32 3 CONST
+//   nextToken();
+//   //prevToken();
+//   nextToken();
+//   printf("%d\n",currentToken()); //25 ; semi
+
   while (currentToken() != EOS && currentToken() != ERROR) {
 	
 	int current = currentToken();
@@ -278,16 +288,17 @@ void Test_scanner(char* filename){
 		// expr1 is: 2
 
 //x:=x;
-//   printf("procedure Id is %s\n", p->id);
-//   printf("Dec Id is: %s\n", p->ds->d->di->id);
-//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
-//   printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+  printf("procedure Id is %s\n", p->id);
+  printf("Dec Id is: %s\n", p->ds->d->di->id);
+  printf("Assign Id is: %s\n",p->ss->s->ass->id);
+  printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
 
 		// PROCEDURE
 		// procedure Id is test1
 		// Dec Id is: x
 		// Assign Id is: x
 		// expr1 is: x
+
 //x:=record x; 
 //   printf("procedure Id is %s\n", p->id);
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
@@ -464,8 +475,9 @@ void parseProcedure(){
 	parseDeclSeq(p->ds);
 	//printf("\ncurrent is %d", currentToken());
 	parseStmtSeq(p->ss);
-	
-	//printf("\ncurrent is %d", currentToken());
+	//EOS
+	//nextToken();
+	printf("\ncurrent is %d", currentToken());
 }
 
 void parseDeclSeq(struct nodeDeclSeq *ds2){
@@ -505,7 +517,6 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 
 void parseStmt(struct nodeStmt *s2){
 
-	
 	int current=currentToken();
 	
 	if(current==ID){
@@ -637,7 +648,7 @@ void parseExpr(struct nodeExpr *expr2){
 		nextToken();
 		parseExpr(expr2->exp);
 	}else{
-		prevToken();
+		prevToken(-1);
 	}
 	//printf("\ncurrent is %d", currentToken());
 	
@@ -662,7 +673,7 @@ void parseTerm(struct nodeTerm *tm2){
 		nextToken();
 		parseTerm(tm2->tm);
 	}else{
-		prevToken();
+		prevToken(-1);
 	}
 	//printf("\ncurrent is %d", currentToken());
 }
@@ -671,12 +682,13 @@ void parseFactor(struct nodeFactor *fac2){
 	//printf("\nFac current is %d\n",currentToken());
 	int current = currentToken();
 	if(current==ID){
-
+		
 		char value[10];
 		getId(value);
 		fac2->id=(char*) calloc(10, sizeof(char));
-		strcpy(fac2->id, value);
-
+		strcpy(fac2->id, value);	
+		printf("\nvalue is %s\n", value);
+		
 		int current_2=nextToken();
 		if(current_2==LBRACE){
 			//expr
@@ -688,8 +700,9 @@ void parseFactor(struct nodeFactor *fac2){
 			//RBRACE
 			nextToken();
 		}else{
-			prevToken();
+			prevToken(-1);
 		}
+		//printf("\ncurrent is %d\n", currentToken());
 		
 	}else if(current==CONST){
 		int value = getConst();
@@ -757,7 +770,13 @@ void parseCond(struct nodeCond *c2){
 				strcpy(c2->sign, "AND");
 			}
 		}else{
-			prevToken();
+			int cnt = 0;
+			if (current_2==DO){
+				cnt = -2;
+			}else if(current_2==THEN){
+				cnt == -4;
+			}
+			prevToken(cnt);
 		}
 
 	}else if(current ==NOT){

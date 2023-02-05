@@ -1,7 +1,5 @@
 procedure test1 is
 	integer x;
-	record y;
 begin
-	x:=record z; 
-	y:=0-10; 
+	x:=y;
 end

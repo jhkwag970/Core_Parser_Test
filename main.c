@@ -21,6 +21,8 @@ int main() {
 
   Test_scanner("Correct/0_test.code");
 
+  //printf("%d", SEEK_CUR);
+
   //  struct nodeProcedure *p = (struct nodeProcedure*) calloc(1, sizeof(struct nodeProcedure));
   //  if(p->ds == NULL){
   //   printf("yes");
