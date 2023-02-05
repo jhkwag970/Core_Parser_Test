@@ -16,6 +16,7 @@ static char* tokenString;
 
 // This is the enum value for the current token
 static int token;
+static int preToken;
 
 // Below are the functions that make up the scanner
 
@@ -231,6 +232,7 @@ int scanner_open(char* filename) {
         printf("Error: File %s couldn't be opened!\n", filename);
     }
     tokenString = NULL;
+    preToken=-1;
     return nextToken();
 }
 
@@ -249,7 +251,9 @@ int currentToken() {
 
 // move pointer and token to previous token
 void prevToken(){
-    fseek( fp, -1, SEEK_CUR);
+    int cnt = strlen(tokenString) * -1;
+    printf("%s :size if %d\n", tokenString, cnt);
+    fseek( fp, cnt-1, SEEK_CUR);
 }
 
 // Finds the next token (or the first token when called by scanner_open)

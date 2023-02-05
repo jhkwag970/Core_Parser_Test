@@ -1,0 +1,7 @@
+procedure test4 is
+	integer x;
+begin
+	if 1 = 3 then
+		x := 10;
+	end
+end

@@ -49,8 +49,8 @@ struct nodeLoop{ //lp
 
 struct nodeIf{ //i
     struct nodeCond *c;
-    struct nodeStmtSeq *sq;
-    struct nodeStmtSeq *sq2;
+    struct nodeStmtSeq *ss;
+    struct nodeStmtSeq *ss2;
 };
 
 struct nodeOut{ //out

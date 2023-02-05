@@ -1,0 +1,8 @@
+procedure test1 is
+	integer x;
+	record y;
+	integer s;
+begin
+	x:=record z; 
+	y:=0-10; 
+end

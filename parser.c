@@ -132,321 +132,403 @@ void Test_scanner(char* filename){
 		// Initialize the scanner
   //scanner_open(filename);
 
-//x:=10;
-  scanner_open("Correct/0_test.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+// //x:=10;
+//   scanner_open("Correct/0_test.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   scanner_close();
+// 		//   PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 10
 
-		//   PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 10
+// //x:=0-10;
+//   scanner_open("Correct/0_test copy 2.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->math);
+//   printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 0
+// 		// math1 is: -
+// 		// expr2 is: 10
 
-//x:=0-10;
-  scanner_open("Correct/0_test copy 2.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->math);
-  printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
+// //x:=3-2+1;
+//   scanner_open("Correct/0_test copy 3.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+// printf("procedure Id is %s\n", p->id);
+// printf("Dec Id is: %s\n", p->ds->d->di->id);
+// printf("Assign Id is: %s\n",p->ss->s->ass->id);
+// printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+// printf("math1 is: %s\n",p->ss->s->ass->exp->math);
+// printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
+// printf("math2 is: %s\n",(p->ss->s->ass->exp->exp->math));
+// printf("expr3 is: %d\n",(p->ss->s->ass->exp->exp->exp->tm->fac->cnt));
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: -
+// 		// expr2 is: 2
+// 		// math2 is: +
+// 		// expr3 is: 1
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 0
-		// math1 is: -
-		// expr2 is: 10
+// //out(4);
+//   scanner_open("Correct/0_test copy 4.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("out expr is: %d\n",p->ss->s->out->exp->tm->fac->cnt);
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// out expr is: 4
 
-//x:=3-2+1;
-  scanner_open("Correct/0_test copy 3.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-printf("procedure Id is %s\n", p->id);
-printf("Dec Id is: %s\n", p->ds->d->di->id);
-printf("Assign Id is: %s\n",p->ss->s->ass->id);
-printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-printf("math1 is: %s\n",p->ss->s->ass->exp->math);
-printf("expr2 is: %d\n",(p->ss->s->ass->exp->exp->tm->fac->cnt));
-printf("math2 is: %s\n",(p->ss->s->ass->exp->exp->math));
-printf("expr3 is: %d\n",(p->ss->s->ass->exp->exp->exp->tm->fac->cnt));
+// //x[2]:=3;
+//   scanner_open("Correct/0_test copy 5.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+// printf("procedure Id is %s\n", p->id);
+// printf("Dec Id is: %s\n", p->ds->d->di->id);
+// printf("Assign Id is: %s\n",p->ss->s->ass->id);
+// printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
+// printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// idx1 is: 2
+// 		// expr1 is: 3  
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: -
-		// expr2 is: 2
-		// math2 is: +
-		// expr3 is: 1
+// //x:=new record[3];  
+//   scanner_open("Correct/0_test copy 6.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
 
-//out(4);
-  scanner_open("Correct/0_test copy 4.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("out expr is: %d\n",p->ss->s->out->exp->tm->fac->cnt);
+// //x[2]:=x[1];
+//   scanner_open("Correct/0_test copy 7.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+// printf("procedure Id is %s\n", p->id);
+// printf("Dec Id is: %s\n", p->ds->d->di->id);
+// printf("Assign Id is: %s\n",p->ss->s->ass->id);
+// printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
+// printf("assign expr is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+// printf("assign idx is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// idx1 is: 2
+// 		// assign expr is: x
+// 		// assign idx is: 1
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// out expr is: 4
+// //x := in();
+//   scanner_open("Correct/0_test copy 8.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+//   scanner_close();
+// 		//   PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: in
+// 	// Scanning is done, release memory
 
-//x[2]:=3;
-  scanner_open("Correct/0_test copy 5.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-printf("procedure Id is %s\n", p->id);
-printf("Dec Id is: %s\n", p->ds->d->di->id);
-printf("Assign Id is: %s\n",p->ss->s->ass->id);
-printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
-printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+// //x := (3+2);
+//   scanner_open("Correct/0_test copy 9.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->fac->exp->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->exp->exp->tm->fac->cnt);
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: +
+// 		// expr1 is: 2
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// idx1 is: 2
-		// expr1 is: 3  
+// //x:=y; (x)
+//   scanner_open("Correct/0_test copy 10.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+//   scanner_close();
+// 		// PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: x
 
-//x:=new record[3]; 
-  scanner_open("Correct/0_test copy 6.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+// //x:=record y;
+//   scanner_open("Correct/0_test copy 11.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   } 
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
+//   scanner_close();
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// Assign Id is: y
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
+// // x :=3*2;
+//   scanner_open("Correct/0_test copy 12.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   scanner_close();
+// 		//   procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: *
+// 		// expr1 is: 2
 
-//x[2]:=x[1];
-  scanner_open("Correct/0_test copy 7.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-printf("procedure Id is %s\n", p->id);
-printf("Dec Id is: %s\n", p->ds->d->di->id);
-printf("Assign Id is: %s\n",p->ss->s->ass->id);
-printf("idx1 is: %d\n",p->ss->s->ass->idx->exp->tm->fac->cnt);
-printf("assign expr is: %s\n",p->ss->s->ass->exp->tm->fac->id);
-printf("assign idx is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
+// //x :=3/2;
+//   scanner_open("Correct/0_test copy 13.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   scanner_close();
+// 		//   procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: /
+// 		// expr1 is: 2
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// idx1 is: 2
-		// assign expr is: x
-		// assign idx is: 1
+// //x :=3*2/1;
+//   scanner_open("Correct/0_test copy 14.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr2 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("math2 is: %s\n",p->ss->s->ass->exp->tm->tm->math);
+//   printf("exp3 is: %d\n",p->ss->s->ass->exp->tm->tm->tm->fac->cnt);
+//   scanner_close();
+// 		//   procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: *
+// 		// expr2 is: 2
+// 		// math2 is: /
+// 		// exp3 is: 1
 
-//x := in();
-  scanner_open("Correct/0_test copy 8.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+// //x :=3*2+1;
+//   scanner_open("Correct/0_test copy 15.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("expr1 is: %s\n",p->ss->s->ass->exp->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->exp->tm->fac->cnt);
+//   scanner_close();
+// 		//   PROCEDURE
+// 		// procedure Id is test1
+// 		// Dec Id is: x
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: *
+// 		// expr1 is: 2
+// 		// expr1 is: +
+// 		// expr1 is: 1
 
-		//   PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: in
-	// Scanning is done, release memory
+// //integer x and record y
+// //x :=3*2+1;
+// //y:=0-10; 
+//   scanner_open("Correct/0_test copy 16.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//   printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
 
-//x := (3+2);
-  scanner_open("Correct/0_test copy 9.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->tm->fac->exp->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->exp->exp->tm->fac->cnt);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("math1 is: %s\n",p->ss->s->ass->exp->math);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->exp->tm->fac->cnt);
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: +
-		// expr1 is: 2
+//   printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
+//   scanner_close();
+// 		//   Dec int Id is: x
+// 		// Dec rec Id is: y
+// 		// Assign Id is: x
+// 		// expr1 is: 3
+// 		// math1 is: *
+// 		// expr1 is: 2
+// 		// math1 is: +
+// 		// expr1 is: 1
+// 		// Assign Id2 is: y
+// 		// expr is2: 0
+// 		// math is2: -
+// 		// expr is2: 10
 
-//x:=y;
-  scanner_open("Correct/0_test copy 10.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %s\n",p->ss->s->ass->exp->tm->fac->id);
+// //int x rec y (x)
+// //	x:=record z; 
+// //	y:=0-10; 
+//   scanner_open("Correct/0_test copy 17.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//   printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
 
-		// PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: x
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
 
-//x:=record y;
-  scanner_open("Correct/0_test copy 11.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  } 
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id2);
+//   printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
+//   scanner_close();
 
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// Assign Id is: y
+// //int x rec y int s
+// //	x:=record z; 
+// //	y:=0-10; 
+//   scanner_open("Correct/0_test copy 20.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//   printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
+//   printf("Dec int Id is: %s\n", p->ds->ds->ds->d->di->id);
 
-// x :=3*2;
-  scanner_open("Correct/0_test copy 12.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
 
-		//   procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: *
-		// expr1 is: 2
+//   printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
+//   printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
+//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
+//   scanner_close();
 
-//x :=3/2;
-  scanner_open("Correct/0_test copy 13.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
-
-		//   procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: /
-		// expr1 is: 2
-
-//x :=3*2/1;
-  scanner_open("Correct/0_test copy 14.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
-  printf("expr2 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
-  printf("math2 is: %s\n",p->ss->s->ass->exp->tm->tm->math);
-  printf("exp3 is: %d\n",p->ss->s->ass->exp->tm->tm->tm->fac->cnt);
-
-		//   procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: *
-		// expr2 is: 2
-		// math2 is: /
-		// exp3 is: 1
-
-//x :=3*2+1;
-  scanner_open("Correct/0_test copy 15.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec Id is: %s\n", p->ds->d->di->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
-  printf("expr1 is: %s\n",p->ss->s->ass->exp->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->exp->tm->fac->cnt);
-
-		//   PROCEDURE
-		// procedure Id is test1
-		// Dec Id is: x
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: *
-		// expr1 is: 2
-		// expr1 is: +
-		// expr1 is: 1
-
-//integer x and record y
-//x :=3*2+1;
-//y:=0-10; 
-  scanner_open("Correct/0_test copy 16.code");
+//int x
+//	if else end (x)
+  scanner_open("Correct/0_test copy 18.code");
   while (currentToken() != EOS && currentToken() != ERROR) {
 	parser();
     nextToken();
@@ -454,55 +536,18 @@ printf("assign idx is: %d\n",p->ss->s->ass->exp->tm->fac->exp->tm->fac->cnt);
   printf("\n-----------------------------------\n");
   printf("procedure Id is %s\n", p->id);
   printf("Dec int Id is: %s\n", p->ds->d->di->id);
-  printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
 
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->tm->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->tm->fac->cnt);
-  printf("math1 is: %s\n",p->ss->s->ass->exp->math);
-  printf("expr1 is: %d\n",p->ss->s->ass->exp->exp->tm->fac->cnt);
+  printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
+  printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
+  printf("Cond2%d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
 
-  printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
-  printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
-  printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
-  printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
+  printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
+  printf("then stmt exp %s\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
 
-		//   Dec int Id is: x
-		// Dec rec Id is: y
-		// Assign Id is: x
-		// expr1 is: 3
-		// math1 is: *
-		// expr1 is: 2
-		// math1 is: +
-		// expr1 is: 1
-		// Assign Id2 is: y
-		// expr is2: 0
-		// math is2: -
-		// expr is2: 10
 
-//int x rec y
-//	x:=record z; 
-//	y:=0-10; 
-  scanner_open("Correct/0_test copy 17.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec int Id is: %s\n", p->ds->d->di->id);
-  printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
 
-  printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  printf("Assign Id is: %s\n",p->ss->s->ass->id2);
 
-  printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
-  printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
-  printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
-  printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
-
-  scanner_close();
+//scanner_close();
 }
 
 
@@ -547,13 +592,9 @@ void parseProcedure(){
 		//current Token is INTEGER or RECORD
 		nextToken();
 	}
-	//printf("\ncurrent is %d\n", currentToken());
 	parseDeclSeq(p->ds);
-	//printf("\ncurrent is %d", currentToken());
 	nextToken();
 	parseStmtSeq(p->ss);
-	
-	//printf("\ncurrent is %d", currentToken());
 }
 
 void parseDeclSeq(struct nodeDeclSeq *ds2){
@@ -588,7 +629,6 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	
 	if(currentToken() != END){
 		//printf("\nsecond current is %d", currentToken());
-		//prevToken();
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2->ss);
 	}
@@ -661,7 +701,7 @@ void parseAssign(struct nodeAssign *ass2){
 			nextToken();
 			//printf("\ncurrent is %d", currentToken());
 			parseExpr(ass2->exp);
-			//RBRACE
+			//Semi-colon
 			nextToken();
 		}else if(current_2==RECORD){
 			//id := record id; 
@@ -674,11 +714,10 @@ void parseAssign(struct nodeAssign *ass2){
 			strcpy(ass2->id2, value);
 			// printf("\nvalue is %s", ass2->id2);
 			// printf("\nvalue is %s", ass2->id);
+			nextToken();
 		}
 	}
 	//printf("\nthis is %d\n",currentToken());
-	//semi-colon
-	nextToken();
 	//printf("\nthis is %d\n",currentToken());
 	
 }
@@ -691,9 +730,9 @@ void parseIndex(struct nodeIndex *idx2){
 		nextToken();
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
-		//RBRACE
-		nextToken();
 		//printf("\ncurrent is %d\n", currentToken());
+
+		//RBRACE check
 	}
 	//printf("\nIndex current is %d\n", currentToken());
 	//epsilon
@@ -712,7 +751,7 @@ void parseExpr(struct nodeExpr *expr2){
 	//printf("\nExpr current is %d\n", currentToken());
 	parseTerm(expr2->tm);
 	//+ or -
-	int current = nextToken();
+	int current = currentToken();
 	//printf("\n+ current is %d\n", current);
 	if(current == ADD || current == SUBTRACT){
 		expr2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -725,8 +764,6 @@ void parseExpr(struct nodeExpr *expr2){
 		//expr
 		nextToken();
 		parseExpr(expr2->exp);
-	}else{
-		prevToken();
 	}
 	//printf("\ncurrent is %d", currentToken());
 	
@@ -737,8 +774,9 @@ void parseTerm(struct nodeTerm *tm2){
 	//printf("\nTerm current is %d\n", currentToken());
 	parseFactor(tm2->fac);
 
-	int current = nextToken();
-	
+	int current = currentToken();
+
+	//printf("\nTerm current is %d\n", currentToken()); //THEN
 	if(current == MULTIPLY || current == DIVIDE){
 		tm2->tm=(struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 		tm2->math=(char*) calloc(1, sizeof(char));
@@ -750,10 +788,7 @@ void parseTerm(struct nodeTerm *tm2){
 		//term
 		nextToken();
 		parseTerm(tm2->tm);
-	}else{
-		prevToken();
 	}
-	//printf("\ncurrent is %d", currentToken());
 }
 
 void parseFactor(struct nodeFactor *fac2){
@@ -776,21 +811,22 @@ void parseFactor(struct nodeFactor *fac2){
 
 			//RBRACE
 			nextToken();
-		}else{
-			prevToken();
 		}
 		
 	}else if(current==CONST){
 		int value = getConst();
 		//printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
+		//printf("\ncurrent is %d", currentToken());
+		nextToken();
 	}else if(current==LPAREN){
 		//expr
 		nextToken();
 		fac2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(fac2->exp);
 
-		//RPAREN
+		//RPAREN check
+
 		nextToken();
 	}else if(current==IN){
 		//printf("\nIN current is %d\n", currentToken());
@@ -803,37 +839,44 @@ void parseFactor(struct nodeFactor *fac2){
 		
 		//RPAREN
 		nextToken();
+
+		nextToken();
 		
 	}
-
+	//printf("\ncurrent is %d", currentToken());
+	
 }
 
 void parseIf(struct nodeIf *i2){
+	//printf("\ncurrent is %d\n", currentToken());
 	//condition
 	nextToken();
+	//printf("\ncurrent is %d\n", currentToken());
 	i2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 	parseCond(i2->c);
 	//then
 	nextToken();
-	i2->sq=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
-	parseStmtSeq(i2->sq);
+	i2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+	parseStmtSeq(i2->ss);
 	//else or end
 	int current = nextToken();
 	if(current == ELSE){
-		i2->sq2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
-		parseStmtSeq(i2->sq2);
+		i2->ss2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+		parseStmtSeq(i2->ss2);
 		//END
 		nextToken();
 	}
 }
 
 void parseCond(struct nodeCond *c2){
+	//printf("\ncurrent is %d\n", currentToken());
 	int current = currentToken();
 	if(current==CONST || current==ID || current==IN || current==LPAREN){
 		c2->cmp=(struct nodeCmpr*) calloc(1, sizeof(struct nodeCmpr));
 		parseCmpr(c2->cmp);
 
 		int current_2= nextToken();
+		//printf("\nloop current is %d\n", currentToken());
 		if(current_2==OR || current_2==AND){
 
 			c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
@@ -845,8 +888,6 @@ void parseCond(struct nodeCond *c2){
 			}else if(current_2==AND){
 				strcpy(c2->sign, "AND");
 			}
-		}else{
-			prevToken();
 		}
 
 	}else if(current ==NOT){
@@ -861,10 +902,11 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 	cmp2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	cmp2->exp2=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	cmp2->sign =(char*) calloc(1, sizeof(char));
+	//printf("\nloop current is %d\n", currentToken());
 	parseExpr(cmp2->exp);
-
 	//sign = or <
 	int current=nextToken();
+	//printf("\nloop current is %d\n", currentToken());
 	if(current == EQUAL){
 		strcpy(cmp2->sign, "=");
 	}else if (current == LESS){
@@ -873,8 +915,11 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 
 	//expr
 	nextToken();
-
+	//printf("\nloop current is %d\n", getConst());
 	parseExpr(cmp2->exp2);
+	//printf("\nloop current is %d\n", currentToken());
+	nextToken();
+	//printf("\nloop current is %d\n", currentToken());
 }
 
 void parseOut(struct nodeOut *out){
@@ -884,8 +929,6 @@ void parseOut(struct nodeOut *out){
 	nextToken();
 	out->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	parseExpr(out->exp);
-	//RPAREN
-	nextToken();
 	//semi-colon
 	nextToken();
 }
@@ -895,11 +938,13 @@ void parseDecl(struct nodeDecl *d2){
 	if(currentToken() == INTEGER){
 		d2->di=(struct nodeDeclInteger*) calloc(1, sizeof(struct nodeDeclInteger));
 		parseDeclInteger(d2->di);
+		//printf("\ncurrent is %d\n",currentToken());
 	}
 	if(currentToken() == RECORD){
 		d2->dr=(struct nodeDeclRecord*) calloc(1, sizeof(struct nodeDeclRecord));
 		parseDeclRecord(d2->dr);
 	}
+	//printf("\ncurrent is %d\n",currentToken());
 }
 
 void parseDeclInteger(struct nodeDeclInteger *di2){
@@ -908,8 +953,10 @@ void parseDeclInteger(struct nodeDeclInteger *di2){
 	getId(value);
 	di2->id=(char*) calloc(10, sizeof(char));
 	strcpy(di2->id, value);
+	//printf("\n Value is %s\n", di2->id);
 	//semi-colon
 	nextToken();
+	//printf("\ncurrent is %d\n",currentToken());
 }
 
 void parseDeclRecord(struct nodeDeclRecord *dr2){
