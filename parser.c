@@ -277,7 +277,7 @@ void Test_scanner(char* filename){
 		// math1 is: +
 		// expr1 is: 2
 
-//x:=x;
+//x:=y;
 //   printf("procedure Id is %s\n", p->id);
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
 //   printf("Assign Id is: %s\n",p->ss->s->ass->id);
@@ -288,7 +288,7 @@ void Test_scanner(char* filename){
 		// Dec Id is: x
 		// Assign Id is: x
 		// expr1 is: x
-//x:=record x; 
+//x:=record y; 
 //   printf("procedure Id is %s\n", p->id);
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
 //   printf("Assign Id is: %s\n",p->ss->s->ass->id);
@@ -328,7 +328,7 @@ void Test_scanner(char* filename){
 		// math1 is: /
 		// expr1 is: 2
 
-//x :=x :=3*2/1;
+//x :=3*2/1;
 //   printf("procedure Id is %s\n", p->id);
 //   printf("Dec Id is: %s\n", p->ds->d->di->id);
 //   printf("Assign Id is: %s\n",p->ss->s->ass->id);
@@ -463,6 +463,7 @@ void parseProcedure(){
 	//printf("\ncurrent is %d\n", currentToken());
 	parseDeclSeq(p->ds);
 	//printf("\ncurrent is %d", currentToken());
+	nextToken();
 	parseStmtSeq(p->ss);
 	
 	//printf("\ncurrent is %d", currentToken());
@@ -474,14 +475,15 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 		printf("Error\n");
 	}
 	ds2->d=(struct nodeDecl*) calloc(1, sizeof(struct nodeDecl));
-	//printf("\ncurrent is %d\n", currentToken());
+	
 	parseDecl(ds2->d);
+	//printf("\ncurrent is %d\n", currentToken());
 	nextToken();
 	//printf("\ncurrent is %d\n", currentToken());
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 		parseDeclSeq(ds2->ds);
-		nextToken();
+
 	}
 
 	//printf("\ncurrent is %d\n", currentToken());
@@ -496,18 +498,20 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	//printf("\ncurrent is %d\n",currentToken());
 	nextToken();
 	//printf("\ncurrent is %d\n",currentToken());
-	//printf("\ncurrent is %d", currentToken());
+	
 	if(currentToken() != END){
+		//printf("\nsecond current is %d", currentToken());
+		//prevToken();
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2->ss);
 	}
 }
 
 void parseStmt(struct nodeStmt *s2){
-
 	
+	//nextToken();
 	int current=currentToken();
-	
+	//printf("\n current is %d", currentToken());
 	if(current==ID){
 		s2->ass=(struct nodeAssign*) calloc(1, sizeof(struct nodeAssign));
 		parseAssign(s2->ass);
@@ -525,8 +529,6 @@ void parseStmt(struct nodeStmt *s2){
 }
 
 void parseAssign(struct nodeAssign *ass2){
-
-	
 	//assign ID
 	//printf("\ncurrent is %d", currentToken());
 	char value[10];
@@ -831,5 +833,4 @@ void parseDeclRecord(struct nodeDeclRecord *dr2){
 	strcpy(dr2->id, value);
 	//semi-colon
 	nextToken();
-
 }
