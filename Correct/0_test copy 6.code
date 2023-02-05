@@ -1,5 +1,5 @@
 procedure test1 is
 	integer x;
 begin
-	x:=10;
+	x:=new record[3]; 
 end
