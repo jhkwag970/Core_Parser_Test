@@ -1,9 +1,13 @@
 procedure test5 is
 	integer x;
+	record s;
+	integer k;
 begin
 	if 1 = 1 then
 		x := 2;
+		z := 4;
 	else
 		y := 3;
+		s := 7;
 	end
 end
