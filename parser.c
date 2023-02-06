@@ -819,8 +819,10 @@ void parseAssign(struct nodeAssign *ass2){
 
 		//expr
 		nextToken();
-
 		parseExpr(ass2->exp);
+
+		expectedToken(SEMICOLON);
+
 	}else if(current == ASSIGN){
 		int current_2 = nextToken();
 		////printf("\ncurrent is %d", current_2);
@@ -961,11 +963,13 @@ void parseFactor(struct nodeFactor *fac2){
 	}else if(current==LPAREN){
 		//expr
 		nextToken();
+		exprChecker();
+
 		fac2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(fac2->exp);
 
 		//RPAREN check
-		expectedToken(LPAREN);
+		expectedToken(RPAREN);
 
 		nextToken();
 	}else if(current==IN){
