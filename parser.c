@@ -575,6 +575,8 @@ void Test_scanner(char* filename){
   printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
   printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
 
+	printf("Cond1 btw sign %s\n", p->ss->s->i->c->sign);
+
    printf("Cond2 %d\n", p->ss->s->i->c->c->cmp->exp->tm->fac->cnt);
   printf("Cond sign %s\n", p->ss->s->i->c->c->cmp->sign);
   printf("Cond2 %d\n", p->ss->s->i->c->c->cmp->exp2->tm->fac->cnt);
