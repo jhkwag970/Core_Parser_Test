@@ -562,29 +562,46 @@ void Test_scanner(char* filename){
 //   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
 //   scanner_close();
 
-   scanner_open("Correct/0_test copy 21.code");
+// //if and else 
+//    scanner_open("Correct/0_test copy 21.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+
+//   printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
+//   printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
+//   printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
+
+// 	printf("Cond1 btw sign %s\n", p->ss->s->i->c->sign);
+
+//    printf("Cond2 %d\n", p->ss->s->i->c->c->cmp->exp->tm->fac->cnt);
+//   printf("Cond sign %s\n", p->ss->s->i->c->c->cmp->sign);
+//   printf("Cond2 %d\n", p->ss->s->i->c->c->cmp->exp2->tm->fac->cnt);
+
+//   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
+//   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
+//   scanner_close();
+
+// // if not 
+   scanner_open("Correct/0_test copy 22.code");
   while (currentToken() != EOS && currentToken() != ERROR) {
 	parser();
     nextToken();
   }
-  printf("\n-----------------------------------\n");
+    printf("\n-----------------------------------\n");
   printf("procedure Id is %s\n", p->id);
   printf("Dec int Id is: %s\n", p->ds->d->di->id);
 
-  printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
-  printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
-  printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
-
-	printf("Cond1 btw sign %s\n", p->ss->s->i->c->sign);
-
-   printf("Cond2 %d\n", p->ss->s->i->c->c->cmp->exp->tm->fac->cnt);
+  printf("Cond1 %d\n", p->ss->s->i->c->c->cmp->exp->tm->fac->cnt);
   printf("Cond sign %s\n", p->ss->s->i->c->c->cmp->sign);
-  printf("Cond2 %d\n", p->ss->s->i->c->c->cmp->exp2->tm->fac->cnt);
+  printf("Cond1 %d\n", p->ss->s->i->c->c->cmp->exp2->tm->fac->cnt);
 
   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
-  scanner_close();
-
 
 
 //scanner_close();
@@ -915,14 +932,14 @@ void parseIf(struct nodeIf *i2){
 }
 
 void parseCond(struct nodeCond *c2){
-	printf("\ncurrent is %d\n", getConst());
+	//printf("\ncurrent is %d\n", getConst());
 	int current = currentToken();
 	if(current==CONST || current==ID || current==IN || current==LPAREN){
 		c2->cmp=(struct nodeCmpr*) calloc(1, sizeof(struct nodeCmpr));
 		parseCmpr(c2->cmp); //then or-then
 
 		int current_2= currentToken();
-		printf("\nloop current is %d\n", currentToken());
+		//printf("\nloop current is %d\n", currentToken());
 		if(current_2==OR || current_2==AND){
 			c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 			c2->sign=(char*) calloc(1, sizeof(char));
@@ -941,7 +958,9 @@ void parseCond(struct nodeCond *c2){
 		}
 
 	}else if(current ==NOT){
-
+		nextToken();
+		c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
+		parseCond(c2->c);
 	} //THEN (1) then(1!)
 	//printf("\nloop current is %d\n", currentToken());
 
