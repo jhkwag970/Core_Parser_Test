@@ -676,7 +676,7 @@ scanner_open("Correct/0_test copy 26.code");
 	parseProcedure();
     nextToken();
   }
-//scanner_close();
+scanner_close();
 
   
 // 	scanner_close();
@@ -731,7 +731,7 @@ static void declSeqChecker(){
 */
 
 
-
+//(x)
 void parseProcedure(){
 	//procedure check
 	expectedToken(PROCEDURE);
@@ -763,6 +763,7 @@ void parseProcedure(){
 	parseStmtSeq(p->ss);
 
 	//end checker
+	expectedToken(END);
 }
 
 //(x)
@@ -783,28 +784,23 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 
 }
 
+//(x)
 void parseStmtSeq(struct nodeStmtSeq *ss2){
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
 
-	// (working)
 	parseStmt(ss2->s);
-
-
 	//END or Not
-	//printf("Stmt current is %d\n",currentToken());
     nextToken();
 	
-    ////printf("\ncurrent is %d\n",currentToken());
-	
 	if(currentToken() == ID || currentToken() == IF || currentToken() == WHILE || currentToken() == OUT){
-    //printf("Stmt2 current is %d\n",currentToken());
+
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2->ss);
 	}
 	
 }
 
-// (working)
+// (x)
 void parseStmt(struct nodeStmt *s2){
 	
 
@@ -924,6 +920,7 @@ void parseAssign(struct nodeAssign *ass2){
 	
 }
 
+//(X)
 void parseIndex(struct nodeIndex *idx2){
 
 	if(currentToken() == LBRACE){
@@ -940,13 +937,13 @@ void parseIndex(struct nodeIndex *idx2){
 	//epsilon
 }
 
+//(x)
 void parseExpr(struct nodeExpr *expr2){
 	exprChecker();
 	expr2->tm = (struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 	parseTerm(expr2->tm);
 	//+ or -
 	int current = currentToken();
-	//printf("current is %d\n", current);
 	if(current == ADD || current == SUBTRACT){
 		expr2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		expr2->math=(char*) calloc(1, sizeof(char));
@@ -959,17 +956,16 @@ void parseExpr(struct nodeExpr *expr2){
 		nextToken();
 		parseExpr(expr2->exp);
 	}
-	////printf("\ncurrent is %d", currentToken());
 	
 }
 
+//(x)
 void parseTerm(struct nodeTerm *tm2){
 	tm2->fac=(struct nodeFactor*) calloc(1, sizeof(struct nodeFactor));
 	parseFactor(tm2->fac);
 
 	int current = currentToken();
 
-	//printf("Term current is %d\n", currentToken()); //THEN
 	if(current == MULTIPLY || current == DIVIDE){
 		tm2->tm=(struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 		tm2->math=(char*) calloc(1, sizeof(char));
@@ -982,8 +978,9 @@ void parseTerm(struct nodeTerm *tm2){
 		nextToken();
 		parseTerm(tm2->tm);
 	}
-	////printf("\nTerm current is %d\n", currentToken()); 
 }
+
+//(x)
 
 void parseFactor(struct nodeFactor *fac2){
 	int current = currentToken();
@@ -1100,6 +1097,7 @@ void parseCond(struct nodeCond *c2){
 	} 
 }
 
+//(x)
 void parseLoop(struct nodeLoop *lp2){
 	lp2->c = (struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 	lp2->ss= (struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
@@ -1162,7 +1160,7 @@ void parseOut(struct nodeOut *out){
 	expectedToken(SEMICOLON);
 }
 
-
+//(x)
 void parseDecl(struct nodeDecl *d2){
 	if(currentToken() == INTEGER){
 		d2->di=(struct nodeDeclInteger*) calloc(1, sizeof(struct nodeDeclInteger));
@@ -1176,6 +1174,7 @@ void parseDecl(struct nodeDecl *d2){
 
 }
 
+//(x)
 void parseDeclInteger(struct nodeDeclInteger *di2){
 	//ID
 	nextToken();
@@ -1191,6 +1190,7 @@ void parseDeclInteger(struct nodeDeclInteger *di2){
 	expectedToken(SEMICOLON);
 }
 
+//(x)
 void parseDeclRecord(struct nodeDeclRecord *dr2){
 	nextToken();
 	expectedToken(ID);
