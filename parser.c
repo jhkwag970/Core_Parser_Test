@@ -31,6 +31,7 @@ void parseCond();
 void parseCmpr();
 void printIntArray();
 void printRecArray();
+void varChecker();
 
 static struct nodeProcedure *p;
 static char intArray[VNUM][VNAME];
@@ -1186,6 +1187,8 @@ void parseDeclInteger(struct nodeDeclInteger *di2){
 
 	char value[10];
 	getId(value);
+	varChecker(value);
+
 	di2->id=(char*) calloc(10, sizeof(char));
 	strcpy(di2->id, value);
 	strcpy(intArray[intIdx], value);
@@ -1203,6 +1206,8 @@ void parseDeclRecord(struct nodeDeclRecord *dr2){
 	
 	char value[10];
 	getId(value);
+	varChecker(value);
+
 	dr2->id=(char*) calloc(10, sizeof(char));
 	strcpy(dr2->id, value);
 	strcpy(recArray[recIdx], value);
@@ -1211,6 +1216,22 @@ void parseDeclRecord(struct nodeDeclRecord *dr2){
 	//semi-colon
 	nextToken();
 	expectedToken(SEMICOLON);
+}
+
+void varChecker(char *value){
+	int i, j;
+	for(i=0; i < intIdx;i++){
+		if((!strcmp(intArray[i], value))){
+			printf("Error: %s is already declared\n", value);
+			exit(0);
+		}
+	}
+	for(j=0; j < recIdx; j++){
+		if((!strcmp(recArray[j], value))){
+			printf("Error: %s is already declared\n", value);
+			exit(0);
+		}
+	}
 }
 
 

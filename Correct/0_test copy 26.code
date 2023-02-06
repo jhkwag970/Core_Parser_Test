@@ -1,12 +1,6 @@
 procedure test1 is
-	integer x;
-	record y;
-    integer z;
-	record a;
-    integer s;
-	record d;
-    integer f;
-	record k;
+	record x;
+	record x;
 begin
 	x:=record z; 
 	y:=0-10; 
