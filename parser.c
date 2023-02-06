@@ -824,6 +824,7 @@ void parseStmt(struct nodeStmt *s2){
 		parseLoop(s2->lp);
 	}else if(current==OUT){
 		s2->out=(struct nodeOut*) calloc(1, sizeof(struct nodeOut));
+		//(x)
 		parseOut(s2->out);
 	}else{
 		char actualStr[20];
@@ -1143,15 +1144,22 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 	////printf("\nloop current is %d\n", currentToken());
 }
 
+//(x)
 void parseOut(struct nodeOut *out){
 	//LPAREN
 	nextToken();
+	expectedToken(LPAREN);
+
 	//exp
 	nextToken();
 	out->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	parseExpr(out->exp);
+
+	expectedToken(RPAREN);
+
 	//semi-colon
 	nextToken();
+	expectedToken(SEMICOLON);
 }
 
 
