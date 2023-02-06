@@ -614,6 +614,25 @@ void Test_scanner(char* filename){
 //   printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
 //     printf("else stmt id %s\n", p->ss->s->i->ss2->ss->s->ass->id);
 //   printf("else stmt exp %d\n", p->ss->s->i->ss2->ss->s->ass->exp->tm->fac->cnt);
+// 	scanner_close();
+
+// //while
+   scanner_open("Correct/0_test copy 23.code");
+  while (currentToken() != EOS && currentToken() != ERROR) {
+	parser();
+    nextToken();
+  }
+      printf("\n-----------------------------------\n");
+  printf("procedure Id is %s\n", p->id);
+  printf("Dec int Id is: %s\n", p->ds->d->di->id);
+
+	printf("while con %d\n", p->ss->s->lp->c->cmp->exp->tm->fac->cnt);
+	printf("while con %s\n", p->ss->s->lp->c->cmp->sign);
+	printf("while con %s\n", p->ss->s->lp->c->cmp->exp2->tm->fac->id);
+
+	printf("inside id %s\n", p->ss->s->lp->ss->s->ass->id);
+	printf("inside exp %d\n", p->ss->s->lp->ss->s->ass->exp->tm->fac->cnt);
+ 	scanner_close();
 
   
 // 	scanner_close();
@@ -979,6 +998,19 @@ void parseCond(struct nodeCond *c2){
 }
 
 void parseLoop(struct nodeLoop *lp2){
+	lp2->c = (struct nodeCond*) calloc(1, sizeof(struct nodeCond));
+	lp2->ss= (struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+	//cond
+	nextToken();
+	parseCond(lp2->c);
+
+	//do check
+
+	//stmt-seq
+	nextToken();
+	parseStmtSeq(lp2->ss);
+
+	//end check
 }
 
 void parseCmpr(struct nodeCmpr  *cmp2){
