@@ -1,1 +1,13 @@
-procedure 1010
+procedure test1 is
+	integer x;
+	record y;
+    integer z;
+	record a;
+    integer s;
+	record d;
+    integer f;
+	record k;
+begin
+	x:=record z; 
+	y:=0-10; 
+end

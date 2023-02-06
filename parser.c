@@ -8,6 +8,10 @@
 #include "tree.h"
 #include "parser.h"
 
+#define VNAME 20
+#define VNUM 20
+
+
 void parseProcedure();
 void parseDeclSeq();
 void parseStmtSeq();
@@ -25,13 +29,15 @@ void parseTerm();
 void parseFactor();
 void parseCond();
 void parseCmpr();
-
-
-
+void printIntArray();
+void printRecArray();
 
 static struct nodeProcedure *p;
-static int expected;
+static char intArray[VNUM][VNAME];
+static char recArray[VNUM][VNAME];
 
+static int intIdx;
+static int recIdx;
 /*
 *
 * Helper functions
@@ -676,6 +682,8 @@ scanner_open("Correct/0_test copy 26.code");
 	parseProcedure();
     nextToken();
   }
+  printIntArray();
+  printRecArray();
 scanner_close();
 
   
@@ -721,6 +729,8 @@ static void exprChecker(){
 
 //(x)
 void parseProcedure(){
+	intIdx=0;
+	recIdx=0;
 	//procedure check
 	expectedToken(PROCEDURE);
 
@@ -823,8 +833,7 @@ void parseStmt(struct nodeStmt *s2){
 		printf("Error: Expected ID, IF, WHILE, OUT but %s\n", actualStr);
 		exit(0);
 	}
-  
-	
+
 }
 
 //(x)
@@ -1179,7 +1188,9 @@ void parseDeclInteger(struct nodeDeclInteger *di2){
 	getId(value);
 	di2->id=(char*) calloc(10, sizeof(char));
 	strcpy(di2->id, value);
-	
+	strcpy(intArray[intIdx], value);
+	intIdx++;
+
 	//semi-colon
 	nextToken();
 	expectedToken(SEMICOLON);
@@ -1194,8 +1205,25 @@ void parseDeclRecord(struct nodeDeclRecord *dr2){
 	getId(value);
 	dr2->id=(char*) calloc(10, sizeof(char));
 	strcpy(dr2->id, value);
+	strcpy(recArray[recIdx], value);
+	recIdx++;
 
 	//semi-colon
 	nextToken();
 	expectedToken(SEMICOLON);
+}
+
+
+void printIntArray(){
+	int i;
+	for(i=0; i< intIdx;i++){
+		printf("Int Variable: %s\n", intArray[i]);
+	}
+}
+
+void printRecArray(){
+	int i;
+	for(i=0; i< recIdx;i++){
+		printf("Rec Variable: %s\n", recArray[i]);
+	}
 }
