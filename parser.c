@@ -790,25 +790,18 @@ void parseStmt(struct nodeStmt *s2){
 }
 
 void parseAssign(struct nodeAssign *ass2){
-	//assign ID
-	////printf("\ncurrent is %d", currentToken());
 	char value[10];
 	getId(value);
-	////printf("\nid is %s\n", value);
 	ass2->id=(char*) calloc(10, sizeof(char));
-  ////printf("%d\n", ass2);
-  // //printf("then stmt id addr%d\n", p->ss->s->i->ss->s->ass);
-  // //printf("then stmt id addr%d\n", p->ss->s->i->ss2->s->ass);
 	strcpy(ass2->id, value);
 
-	
 	int current = nextToken();
-	
 	if(current == LBRACE){
 		//id <index> := <expr> ;
 		ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 		ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseIndex(ass2->idx);
+		
 		//assign
 		nextToken();
 		//expr
@@ -853,33 +846,35 @@ void parseAssign(struct nodeAssign *ass2){
 			// //printf("\nvalue is %s", ass2->id);
 			nextToken();
 		}
+	}else{
+		char actualStr[20];
+		tokenString(actualStr, current);
+		printf("Error: Expected LBRACE or ASSIGN but %s\n", actualStr);
+		exit(0);
 	}
-	//printf("this is %d\n",currentToken());
-	////printf("\nthis is %d\n",currentToken());
 	
 }
 
 void parseIndex(struct nodeIndex *idx2){
 
 	if(currentToken() == LBRACE){
-		////printf("\ncurrent is %d\n", currentToken());
 		//expr
 		nextToken();
+		int current=currentToken();
+		
+		if(current != ID && current != CONST && current != LPAREN && current != IN){
+			char actualStr[20];
+			tokenString(actualStr, current);
+			printf("Error: Expected ID, CONST, LPAREN, IN but %s\n", actualStr);
+			exit(0);
+		}
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
-		////printf("\ncurrent is %d\n", currentToken());
 
 		//RBRACE check
+		expectedToken(RBRACE);
 	}
-	////printf("\nIndex current is %d\n", currentToken());
 	//epsilon
-	// else if (currentToken() == CONST){
-	// 	char value[1];
-	// 	idx2->eps=(char*) calloc(10, sizeof(char));
-	// 	strcpy(idx2->eps, "eps");
-	// }
-
-
 }
 
 void parseExpr(struct nodeExpr *expr2){
