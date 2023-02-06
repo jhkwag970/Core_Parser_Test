@@ -819,7 +819,6 @@ void parseAssign(struct nodeAssign *ass2){
 
 		//expr
 		nextToken();
-		exprChecker();
 
 		parseExpr(ass2->exp);
 	}else if(current == ASSIGN){
@@ -877,8 +876,6 @@ void parseIndex(struct nodeIndex *idx2){
 		nextToken();
 		int current=currentToken();
 
-		exprChecker();
-
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
 
@@ -889,6 +886,7 @@ void parseIndex(struct nodeIndex *idx2){
 }
 
 void parseExpr(struct nodeExpr *expr2){
+	exprChecker();
 	expr2->tm = (struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 	parseTerm(expr2->tm);
 	//+ or -
@@ -933,7 +931,6 @@ void parseTerm(struct nodeTerm *tm2){
 }
 
 void parseFactor(struct nodeFactor *fac2){
-	exprChecker();
 	int current = currentToken();
 	if(current==ID){
 
@@ -946,7 +943,6 @@ void parseFactor(struct nodeFactor *fac2){
 		if(current_2==LBRACE){
 			//expr
 			nextToken();
-			exprChecker();
 
 			fac2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 			parseExpr(fac2->exp);
@@ -955,17 +951,13 @@ void parseFactor(struct nodeFactor *fac2){
 			expectedToken(RBRACE);
 			
 			nextToken();
-			expectedToken(SEMICOLON);
-			
 		}
 		
 	}else if(current==CONST){
 		int value = getConst();
-		//printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
 		
 		nextToken();
-		//printf("current is %d\n", currentToken());
 	}else if(current==LPAREN){
 		//expr
 		nextToken();
@@ -973,19 +965,18 @@ void parseFactor(struct nodeFactor *fac2){
 		parseExpr(fac2->exp);
 
 		//RPAREN check
+		expectedToken(LPAREN);
 
 		nextToken();
 	}else if(current==IN){
-		////printf("\nIN current is %d\n", currentToken());
-		// fac2->id=(char*) calloc(10, sizeof(char));
-		// strcpy(fac2->id, "in");
-		////printf("\nIN2 current is %d\n", currentToken());
 
 		//LPAREN
 		nextToken();
+		expectedToken(LPAREN);
 		
 		//RPAREN
 		nextToken();
+		expectedToken(RPAREN);
 
 		nextToken();
 		
