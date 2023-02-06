@@ -1061,6 +1061,7 @@ void parseIf(struct nodeIf *i2){
 	}
 }
 
+//(x)
 void parseCond(struct nodeCond *c2){
 	int current = currentToken();
 	if(current==CONST || current==ID || current==IN || current==LPAREN){
@@ -1068,7 +1069,6 @@ void parseCond(struct nodeCond *c2){
 		parseCmpr(c2->cmp); //then or-then
 
 		int current_2= currentToken();
-		//printf("\nloop current is %d\n", currentToken());
 		if(current_2==OR || current_2==AND){
 			c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 			c2->sign=(char*) calloc(1, sizeof(char));
@@ -1079,11 +1079,8 @@ void parseCond(struct nodeCond *c2){
 				strcpy(c2->sign, "AND");
 			}
 			
-
 			nextToken();
-			//printf("\nloop current is %d\n", currentToken());
 			parseCond(c2->c);
-			//printf("\nloop current is %d\n", currentToken());
 		}
 
 	}else if(current ==NOT){
@@ -1096,10 +1093,6 @@ void parseCond(struct nodeCond *c2){
 		printf("Error: Expected EXPR token or NOT but %s\n", actualStr);
 		exit(0);
 	} 
-	
-	//THEN (1) then(1!)
-	//printf("\nloop current is %d\n", currentToken());
-
 }
 
 void parseLoop(struct nodeLoop *lp2){
@@ -1118,6 +1111,7 @@ void parseLoop(struct nodeLoop *lp2){
 	//end check
 }
 
+//(x)
 void parseCmpr(struct nodeCmpr  *cmp2){
 	cmp2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	cmp2->exp2=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -1133,7 +1127,7 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 	}else{
 		char actualStr[20];
 		tokenString(actualStr, current);
-		printf("Error: Expected EXPR token or NOT but %s\n", actualStr);
+		printf("Error: Expected EQUAL or < but %s\n", actualStr);
 		exit(0);
 	}
 

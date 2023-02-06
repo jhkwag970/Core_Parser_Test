@@ -1,5 +1,5 @@
 procedure test5 is
 	integer x;
 begin
-	if x
+	if x < 10 
 end
