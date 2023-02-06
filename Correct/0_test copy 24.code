@@ -1,7 +1,13 @@
 procedure test5 is
 	integer x;
 begin
-	if 1 < 1 then
-		x := 2;
+	x:=9;
+	if 1 = 2  then
+		x := 5;
+		x := 6;
+	else
+		c :=7;
+		b :=8;
 	end
+	
 end
