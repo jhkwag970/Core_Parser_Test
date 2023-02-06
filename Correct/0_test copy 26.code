@@ -1,5 +1,1 @@
-procedure test5 is
-	integer x;
-begin
-	out(x);
-end
+procedure 1010
