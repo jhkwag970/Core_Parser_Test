@@ -3,5 +3,9 @@ procedure test5 is
 begin
 	if not 1 = 2  then
 		x := 5;
+		y := 6;
+	else
+		c :=7;
+		a:=8;
 	end
 end

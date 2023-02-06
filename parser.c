@@ -539,9 +539,13 @@ void Test_scanner(char* filename){
 
 //   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
 //   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
+//     printf("then stmt id %s\n", p->ss->s->i->ss->ss->s->ass->id);
+//   printf("then stmt exp %d\n", p->ss->s->i->ss->ss->s->ass->exp->tm->fac->cnt);
 
 //   printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id);
 //   printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
+//     printf("else stmt id %s\n", p->ss->s->i->ss2->ss->s->ass->id);
+//   printf("else stmt exp %d\n", p->ss->s->i->ss2->ss->s->ass->exp->tm->fac->cnt);
 //   scanner_close();
 
 //  //if < else
@@ -587,24 +591,32 @@ void Test_scanner(char* filename){
 //   scanner_close();
 
 // // if not 
-   scanner_open("Correct/0_test copy 22.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-    printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//    scanner_open("Correct/0_test copy 22.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//     printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
 
-  printf("Cond1 %d\n", p->ss->s->i->c->c->cmp->exp->tm->fac->cnt);
-  printf("Cond sign %s\n", p->ss->s->i->c->c->cmp->sign);
-  printf("Cond1 %d\n", p->ss->s->i->c->c->cmp->exp2->tm->fac->cnt);
+//   printf("Cond1 %d\n", p->ss->s->i->c->c->cmp->exp->tm->fac->cnt);
+//   printf("Cond sign %s\n", p->ss->s->i->c->c->cmp->sign);
+//   printf("Cond1 %d\n", p->ss->s->i->c->c->cmp->exp2->tm->fac->cnt);
 
-  printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
-  printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
+//   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
+//   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
 
+//   printf("then stmt id %s\n", p->ss->s->i->ss->ss->s->ass->id);
+//   printf("then stmt exp %d\n", p->ss->s->i->ss->ss->s->ass->exp->tm->fac->cnt);
 
-//scanner_close();
+//   printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id);
+//   printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
+//     printf("else stmt id %s\n", p->ss->s->i->ss2->ss->s->ass->id);
+//   printf("else stmt exp %d\n", p->ss->s->i->ss2->ss->s->ass->exp->tm->fac->cnt);
+
+  
+// 	scanner_close();
 }
 
 
