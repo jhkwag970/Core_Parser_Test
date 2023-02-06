@@ -2,4 +2,4 @@ procedure test01 is
 	integer x;
 	record y;
 begin
-	x[10]
+	x[10]is

@@ -680,6 +680,17 @@ static void expectedToken(int expected) {
     }
 }
 
+static void exprChecker(){
+	int current=currentToken();
+
+	if(current != ID && current != CONST && current != LPAREN && current != IN){
+		char actualStr[20];
+		tokenString(actualStr, current);
+		printf("Error: Expected ID, CONST, LPAREN, IN but %s\n", actualStr);
+		exit(0);
+	}
+}
+
 
 /*
 *
@@ -804,8 +815,11 @@ void parseAssign(struct nodeAssign *ass2){
 		
 		//assign
 		nextToken();
+		expectedToken(ASSIGN);
+
 		//expr
 		nextToken();
+
 		parseExpr(ass2->exp);
 	}else if(current == ASSIGN){
 		int current_2 = nextToken();
@@ -861,18 +875,14 @@ void parseIndex(struct nodeIndex *idx2){
 		//expr
 		nextToken();
 		int current=currentToken();
-		
-		if(current != ID && current != CONST && current != LPAREN && current != IN){
-			char actualStr[20];
-			tokenString(actualStr, current);
-			printf("Error: Expected ID, CONST, LPAREN, IN but %s\n", actualStr);
-			exit(0);
-		}
+
+		exprChecker();
+
 		idx2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseExpr(idx2->exp);
 
 		//RBRACE check
-		expectedToken(RBRACE);
+		//expectedToken(RBRACE);
 	}
 	//epsilon
 }
