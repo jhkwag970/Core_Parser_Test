@@ -208,6 +208,7 @@ void tokenToEnum(){
             token=35;
             token=ERROR;
             printf("Scanner Error: %c is causing the error.\n", tokenString[errorIndex()-1]);
+            exit(0);
         }else if(numberChecker()){
             int tokenNumber = atoi(tokenString);
             if(tokenNumber >=0 && tokenNumber <= 1009){
@@ -217,6 +218,7 @@ void tokenToEnum(){
                 token =35;
                 token=ERROR;
                 printf("Scanner Error: %s is too big number\n", tokenString);
+                exit(0);
             }
         }else{
             token=33;
