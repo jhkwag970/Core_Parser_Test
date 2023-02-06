@@ -2,5 +2,5 @@ procedure test01 is
 	integer x;
 	record y;
 begin
-	x[10]:=x;
+	x:=new record[10];
 	

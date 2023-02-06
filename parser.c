@@ -825,12 +825,9 @@ void parseAssign(struct nodeAssign *ass2){
 
 	}else if(current == ASSIGN){
 		int current_2 = nextToken();
-		////printf("\ncurrent is %d", current_2);
 
 		if(current_2==CONST || current_2==ID || current_2==IN || current_2==LPAREN){
 			//id := <expr> ;
-			////printf("\ncurrent is %d", current_2);	
-			////printf("\ncurrent is %d", currentToken());	
 			ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 			parseIndex(ass2->idx);
@@ -841,14 +838,23 @@ void parseAssign(struct nodeAssign *ass2){
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 			//record
 			nextToken();
+			expectedToken(RECORD);
+
 			//LBRACE
 			nextToken();
+			expectedToken(LBRACE);
+
 			//expr
 			nextToken();
-			////printf("\ncurrent is %d", currentToken());
 			parseExpr(ass2->exp);
+
+			//RBRACE check
+			expectedToken(RBRACE);
+
 			//Semi-colon
 			nextToken();
+			expectedToken(SEMICOLON);
+			
 		}else if(current_2==RECORD){
 			//id := record id; 
 			//id
@@ -861,6 +867,11 @@ void parseAssign(struct nodeAssign *ass2){
 			// //printf("\nvalue is %s", ass2->id2);
 			// //printf("\nvalue is %s", ass2->id);
 			nextToken();
+		}else{
+			char actualStr[20];
+			tokenString(actualStr, current_2);
+			printf("Error: Expected EXPR token, NEW, or RECORD but %s\n", actualStr);
+			exit(0);
 		}
 	}else{
 		char actualStr[20];
