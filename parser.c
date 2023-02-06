@@ -816,9 +816,11 @@ void parseStmt(struct nodeStmt *s2){
 		parseAssign(s2->ass);
 	}else if(current==IF){
 		s2->i=(struct nodeIf*) calloc(1, sizeof(struct nodeIf));
+		//(x)
 		parseIf(s2->i);
 	}else if(current==WHILE){
 		s2->lp=(struct nodeLoop*) calloc(1, sizeof(struct nodeLoop));
+		//(x)
 		parseLoop(s2->lp);
 	}else if(current==OUT){
 		s2->out=(struct nodeOut*) calloc(1, sizeof(struct nodeOut));
@@ -1105,12 +1107,14 @@ void parseLoop(struct nodeLoop *lp2){
 	parseCond(lp2->c);
 
 	//do check
+	expectedToken(DO);
 
 	//stmt-seq
 	nextToken();
 	parseStmtSeq(lp2->ss);
 
 	//end check
+	expectedToken(END);
 }
 
 //(x)
