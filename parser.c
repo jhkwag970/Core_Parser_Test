@@ -710,18 +710,6 @@ static void exprChecker(){
 	}
 }
 
-static void declSeqChecker(){
-	int current=currentToken();
-
-	//BEGIN need check
-	if(currentToken() != INTEGER && currentToken() != RECORD && currentToken() != BEGIN){
-		char actualStr[20];
-		tokenString(actualStr, current);
-
-		printf("Error: expected INTEGER or RECORD or BEGIN but recieved %s\n", actualStr);
-		exit(0);
-	}
-}
 
 
 /*
@@ -757,6 +745,8 @@ void parseProcedure(){
 	nextToken();
 	parseDeclSeq(p->ds);
 
+	expectedToken(BEGIN);
+
 	nextToken();
 	//Later check 
 
@@ -769,18 +759,23 @@ void parseProcedure(){
 //(x)
 void parseDeclSeq(struct nodeDeclSeq *ds2){
 	
-	declSeqChecker();
+	if(currentToken() != INTEGER && currentToken() != RECORD){
+		char actualStr[20];
+		tokenString(actualStr, currentToken());
+
+		printf("Error: expected INTEGER or RECORD or BEGIN but recieved %s\n", actualStr);
+		exit(0);
+	}
 	ds2->d=(struct nodeDecl*) calloc(1, sizeof(struct nodeDecl));
 
 	parseDecl(ds2->d);
-
 	nextToken();
 
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 		parseDeclSeq(ds2->ds);
 	}
-	declSeqChecker();
+
 
 }
 
