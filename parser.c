@@ -503,29 +503,6 @@ void Test_scanner(char* filename){
 //   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
 //   scanner_close();
 
-// //int x rec y int s
-// //	x:=record z; 
-// //	y:=0-10; 
-//   scanner_open("Correct/0_test copy 20.code");
-//   while (currentToken() != EOS && currentToken() != ERROR) {
-// 	parser();
-//     nextToken();
-//   }
-//   printf("\n-----------------------------------\n");
-//   printf("procedure Id is %s\n", p->id);
-//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
-//   printf("Dec rec Id is: %s\n", p->ds->ds->d->dr->id);
-//   printf("Dec int Id is: %s\n", p->ds->ds->ds->d->di->id);
-
-//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
-//   printf("Assign Id is: %s\n",p->ss->s->ass->id2);
-
-//   printf("Assign Id2 is: %s\n",p->ss->ss->s->ass->id);
-//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->tm->fac->cnt);
-//   printf("math is2: %s\n",p->ss->ss->s->ass->exp->math);
-//   printf("expr is2: %d\n",p->ss->ss->s->ass->exp->exp->tm->fac->cnt);
-//   scanner_close();
-
 // // int x
 // // 	if then end (x)
 //   scanner_open("Correct/0_test copy 18.code");
@@ -546,25 +523,26 @@ void Test_scanner(char* filename){
 //   scanner_close();
 
 // // if else then
-  scanner_open("Correct/0_test copy 19.code");
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	parser();
-    nextToken();
-  }
-  printf("\n-----------------------------------\n");
-  printf("procedure Id is %s\n", p->id);
-  printf("Dec int Id is: %s\n", p->ds->d->di->id);
+//    scanner_open("Correct/0_test copy 19.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+      
+// 	  parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
 
-  printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
-  printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
-  printf("Cond2 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
+//   printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
+//   printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
+//   printf("Cond2 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
 
-  printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
-  printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
+//   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
+//   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
 
-  printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id);
-  printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
-  scanner_close();
+//   printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id);
+//   printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
+//   scanner_close();
 
 //  //if < else
 //   scanner_open("Correct/0_test copy 20.code");
@@ -595,7 +573,6 @@ void Test_scanner(char* filename){
 * Parse functions go here
 *
 */
-
 
 
 void parser(){
@@ -659,20 +636,18 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 
 	////printf("\ncurrent is %d\n",currentToken());
 	parseStmt(ss2->s);
-	//END or NoT
-	
+	//END or Not
+	//printf("Stmt current is %d\n",currentToken());
     nextToken();
 	
   ////printf("\ncurrent is %d\n",currentToken());
 	
 	if(currentToken() == ID || currentToken() == IF || currentToken() == WHILE || currentToken() == OUT){
-        //printf("Stmt2 current is %d\n",currentToken());
+    //printf("Stmt2 current is %d\n",currentToken());
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2->ss);
 	}
-	// if(currentToken() == END){
-	// 	return;
-	// }
+	
 }
 
 void parseStmt(struct nodeStmt *s2){
@@ -687,9 +662,7 @@ void parseStmt(struct nodeStmt *s2){
 	}else if(current==IF){
 		s2->i=(struct nodeIf*) calloc(1, sizeof(struct nodeIf));
 		parseIf(s2->i);
-		//printf("\nLast stmt current is %d\n", currentToken()); //THENc
-		nextToken();
-		//printf("\nLast stmt2 current is %d\n", currentToken()); //THENc
+		////printf("\nstmt current is %d\n", currentToken()); //THENc
 	}else if(current==WHILE){
 		s2->lp=(struct nodeLoop*) calloc(1, sizeof(struct nodeLoop));
 		parseLoop(s2->lp);
@@ -717,7 +690,7 @@ void parseAssign(struct nodeAssign *ass2){
 	int current = nextToken();
 	
 	if(current == LBRACE){
-		//id <index> := <expr> 
+		//id <index> := <expr> ;
 		ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 		ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseIndex(ass2->idx);
@@ -910,13 +883,11 @@ void parseIf(struct nodeIf *i2){
 	i2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 	parseStmtSeq(i2->ss);
 	int current = currentToken();
-	//printf("ELSE is %d\n", currentToken());
+	
 	if(current == ELSE){
 		i2->ss2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		nextToken();
-		//printf("Inside ELSE %d\n", currentToken());
 		parseStmtSeq(i2->ss2);
-		//printf("Inside ELSE2 %d\n", currentToken());
 	}
 }
 
