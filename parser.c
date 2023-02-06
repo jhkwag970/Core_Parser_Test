@@ -713,13 +713,6 @@ void parseProcedure(){
 
 	//ID
 	nextToken();
-	if(currentToken() != INTEGER || currentToken() != RECORD){
-		char actualStr[20];
-		tokenString(actualStr, currentToken());
-
-		printf("Error: expected INTEGER or RECORD but recieved %s\n", actualStr);
-        exit(0);
-	}
 
 	parseDeclSeq(p->ds);
 
@@ -734,6 +727,15 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 	
 	parseDecl(ds2->d);
 	nextToken();
+	
+	if(currentToken() != INTEGER && currentToken() != RECORD && currentToken() != BEGIN){
+		char actualStr[20];
+		tokenString(actualStr, currentToken());
+
+		printf("Error: expected INTEGER or RECORD but recieved %s\n", actualStr);
+        exit(0);
+	}
+
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 		parseDeclSeq(ds2->ds);
@@ -1095,26 +1097,35 @@ void parseDecl(struct nodeDecl *d2){
 		d2->dr=(struct nodeDeclRecord*) calloc(1, sizeof(struct nodeDeclRecord));
 		parseDeclRecord(d2->dr);
 	}
+
+
 }
 
 void parseDeclInteger(struct nodeDeclInteger *di2){
-	char value[10];
+	//ID
 	nextToken();
+	expectedToken(ID);
+
+	char value[10];
 	getId(value);
 	di2->id=(char*) calloc(10, sizeof(char));
 	strcpy(di2->id, value);
-	////printf("\n Value is %s\n", di2->id);
+	
 	//semi-colon
 	nextToken();
-	////printf("\ncurrent is %d\n",currentToken());
+	expectedToken(SEMICOLON);
 }
 
 void parseDeclRecord(struct nodeDeclRecord *dr2){
-	char value[10];
 	nextToken();
+	expectedToken(ID);
+	
+	char value[10];
 	getId(value);
 	dr2->id=(char*) calloc(10, sizeof(char));
 	strcpy(dr2->id, value);
+
 	//semi-colon
 	nextToken();
+	expectedToken(SEMICOLON);
 }
