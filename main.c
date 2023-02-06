@@ -38,16 +38,16 @@ int main() {
 	//scanner("Correct/0_test copy 19.code");
   //Test_scanner("Correct/0_test.code");
 
-  //   scanner_open("Correct/0_test.code");
-  // while (currentToken() != EOS && currentToken() != ERROR) {
-	// parser();
-  //   nextToken();
-  // }
-  // printf("\n-----------------------------------\n");
-  // printf("procedure Id is %s\n", p->id);
-  // printf("Dec Id is: %s\n", p->ds->d->di->id);
-  // printf("Assign Id is: %s\n",p->ss->s->ass->id);
-  // printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
+//     scanner_open("Correct/0_test.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec Id is: %s\n", p->ds->d->di->id);
+//   printf("Assign Id is: %s\n",p->ss->s->ass->id);
+//   printf("expr1 is: %d\n",p->ss->s->ass->exp->tm->fac->cnt);
 //   scanner_close();
 
   scanner_open("Correct/0_test copy 19.code");
@@ -68,6 +68,9 @@ int main() {
 
   printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id);
   printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
+
+  //   printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id); working
+//   printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt); working
   
 
   return 0;
@@ -134,21 +137,20 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 
 	//printf("\ncurrent is %d\n",currentToken());
 	parseStmt(ss2->s);
-	//END or Not
-	printf("Stmt current is %d\n",currentToken());
-  if(currentToken() != ELSE){
+	//END or NoT
+	
     nextToken();
-  }
-  
 	
   //printf("\ncurrent is %d\n",currentToken());
 	
 	if(currentToken() == ID || currentToken() == IF || currentToken() == WHILE || currentToken() == OUT){
-    printf("Stmt2 current is %d\n",currentToken());
+        printf("Stmt2 current is %d\n",currentToken());
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2->ss);
 	}
-	
+	if(currentToken() == END){
+		return;
+	}
 }
 
 void parseStmt(struct nodeStmt *s2){
@@ -163,7 +165,9 @@ void parseStmt(struct nodeStmt *s2){
 	}else if(current==IF){
 		s2->i=(struct nodeIf*) calloc(1, sizeof(struct nodeIf));
 		parseIf(s2->i);
-		//printf("\nstmt current is %d\n", currentToken()); //THENc
+		printf("\nLast stmt current is %d\n", currentToken()); //THENc
+		nextToken();
+		printf("\nLast stmt2 current is %d\n", currentToken()); //THENc
 	}else if(current==WHILE){
 		s2->lp=(struct nodeLoop*) calloc(1, sizeof(struct nodeLoop));
 		parseLoop(s2->lp);
@@ -191,7 +195,7 @@ void parseAssign(struct nodeAssign *ass2){
 	int current = nextToken();
 	
 	if(current == LBRACE){
-		//id <index> := <expr> ;
+		//id <index> := <expr> 
 		ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 		ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseIndex(ass2->idx);
@@ -384,10 +388,13 @@ void parseIf(struct nodeIf *i2){
 	i2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 	parseStmtSeq(i2->ss);
 	int current = currentToken();
-	
+	printf("ELSE is %d\n", currentToken());
 	if(current == ELSE){
 		i2->ss2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+		nextToken();
+		printf("Inside ELSE %d\n", currentToken());
 		parseStmtSeq(i2->ss2);
+		printf("Inside ELSE2 %d\n", currentToken());
 	}
 }
 
