@@ -33,6 +33,7 @@ void printIntArray();
 void printRecArray();
 void varChecker();
 void varUndeclaredChecker();
+void varRecChecker();
 
 static struct nodeProcedure *p;
 static char intArray[VNUM][VNAME];
@@ -849,7 +850,8 @@ void parseAssign(struct nodeAssign *ass2){
 
 	int current = nextToken();
 	if(current == LBRACE){
-		//id <index> := <expr> ;
+		//id [<index>] := <expr> ;
+		varRecChecker(value);
 		ass2->idx=(struct nodeIndex*) calloc(1, sizeof(struct nodeIndex));
 		ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 		parseIndex(ass2->idx);
@@ -877,6 +879,8 @@ void parseAssign(struct nodeAssign *ass2){
 			expectedToken(SEMICOLON);
 		}else if(current_2==NEW){
 			//id := new record [<expr>];
+			varRecChecker(value);
+
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 			//record
 			nextToken();
@@ -898,14 +902,16 @@ void parseAssign(struct nodeAssign *ass2){
 			expectedToken(SEMICOLON);
 
 		}else if(current_2==RECORD){
+			varRecChecker(value);
 			//id := record id; 
 			//id
 			nextToken();
 			expectedToken(ID);
 
-			char value[10];
-			getId(value);
-			varUndeclaredChecker(value);
+			char value2[10];
+			getId(value2);
+			varUndeclaredChecker(value2);
+			varRecChecker(value2);
 			
 			ass2->id2=(char*) calloc(10, sizeof(char));
 			strcpy(ass2->id2, value);
@@ -1005,6 +1011,7 @@ void parseFactor(struct nodeFactor *fac2){
 
 		int current_2=nextToken();
 		if(current_2==LBRACE){
+			varRecChecker(value);
 			//expr
 			nextToken();
 
@@ -1254,6 +1261,17 @@ void varUndeclaredChecker(char *value){
 		}
 	}
 	printf("Error: %s is undeclared variable\n", value);
+	exit(0);
+}
+
+void varRecChecker(char *value){
+	int i;
+	for(i=0;i< recIdx;i++){
+		if((!strcmp(recArray[i], value))){
+			return;
+		}
+	}
+	printf("Error: %s is not Record variable\n", value);
 	exit(0);
 }
 

@@ -1,5 +1,6 @@
 procedure test1 is
 	record x;
+	integer s;
 begin
-	x:=x+y;
+	x:=s[3];
 end
