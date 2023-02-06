@@ -3,10 +3,10 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "scanner.h"
-#include "core.h"
-#include "tree.h"
-#include "parser.h"
+// #include "scanner.h"
+// #include "core.h"
+// #include "tree.h"
+// #include "parser.h"
 
 void parser();
 void parseProcedure();
@@ -527,8 +527,26 @@ void Test_scanner(char* filename){
 //   scanner_close();
 
 //int x
-//	if else end (x)
-  scanner_open("Correct/0_test copy 18.code");
+//	if then end (x)
+//   scanner_open("Correct/0_test copy 18.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parser();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
+
+//   printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
+//   printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
+//   printf("Cond2 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
+
+//   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
+//   printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
+
+
+// if else then
+  scanner_open("Correct/0_test copy 19.code");
   while (currentToken() != EOS && currentToken() != ERROR) {
 	parser();
     nextToken();
@@ -539,11 +557,13 @@ void Test_scanner(char* filename){
 
   printf("Cond1 %d\n", p->ss->s->i->c->cmp->exp->tm->fac->cnt);
   printf("Cond sign %s\n", p->ss->s->i->c->cmp->sign);
-  printf("Cond2%d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
+  printf("Cond2 %d\n", p->ss->s->i->c->cmp->exp2->tm->fac->cnt);
 
   printf("then stmt id %s\n", p->ss->s->i->ss->s->ass->id);
-  printf("then stmt exp %s\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
+  printf("then stmt exp %d\n", p->ss->s->i->ss->s->ass->exp->tm->fac->cnt);
 
+  printf("else stmt id %s\n", p->ss->s->i->ss2->s->ass->id);
+  printf("else stmt exp %d\n", p->ss->s->i->ss2->s->ass->exp->tm->fac->cnt);
 
 
 
@@ -583,8 +603,7 @@ void parseProcedure(){
 	p->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 	p->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 
-	assignId();
-	//printf("\ncurrent is %d\n", currentToken());
+	assignId();;
 	//check nextToken is IS
 	if (nextToken() != IS){
 		//error
@@ -605,33 +624,30 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 	ds2->d=(struct nodeDecl*) calloc(1, sizeof(struct nodeDecl));
 	
 	parseDecl(ds2->d);
-	//printf("\ncurrent is %d\n", currentToken());
 	nextToken();
-	//printf("\ncurrent is %d\n", currentToken());
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 		parseDeclSeq(ds2->ds);
 
 	}
 
-	//printf("\ncurrent is %d\n", currentToken());
 }
 
 void parseStmtSeq(struct nodeStmtSeq *ss2){
 	//printf("\ncurrent is %d", currentToken());
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
-	
+
+	//printf("\ncurrent is %d\n",currentToken());
 	parseStmt(ss2->s);
 	//END or Not
-	//printf("\ncurrent is %d\n",currentToken());
+	
 	nextToken();
-	//printf("\ncurrent is %d\n",currentToken());
 	
 	if(currentToken() != END){
-		//printf("\nsecond current is %d", currentToken());
 		ss2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 		parseStmtSeq(ss2->ss);
 	}
+	//printf("\ncurrent is %d\n",currentToken());
 }
 
 void parseStmt(struct nodeStmt *s2){
@@ -642,9 +658,11 @@ void parseStmt(struct nodeStmt *s2){
 	if(current==ID){
 		s2->ass=(struct nodeAssign*) calloc(1, sizeof(struct nodeAssign));
 		parseAssign(s2->ass);
+		
 	}else if(current==IF){
 		s2->i=(struct nodeIf*) calloc(1, sizeof(struct nodeIf));
 		parseIf(s2->i);
+		printf("\nstmt current is %d\n", currentToken()); //THENc
 	}else if(current==WHILE){
 		s2->lp=(struct nodeLoop*) calloc(1, sizeof(struct nodeLoop));
 		parseLoop(s2->lp);
@@ -776,7 +794,7 @@ void parseTerm(struct nodeTerm *tm2){
 
 	int current = currentToken();
 
-	//printf("\nTerm current is %d\n", currentToken()); //THEN
+	// printf("\nTerm current is %d\n", currentToken()); //THEN
 	if(current == MULTIPLY || current == DIVIDE){
 		tm2->tm=(struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
 		tm2->math=(char*) calloc(1, sizeof(char));
@@ -789,6 +807,7 @@ void parseTerm(struct nodeTerm *tm2){
 		nextToken();
 		parseTerm(tm2->tm);
 	}
+	//printf("\nTerm current is %d\n", currentToken()); 
 }
 
 void parseFactor(struct nodeFactor *fac2){
@@ -817,8 +836,9 @@ void parseFactor(struct nodeFactor *fac2){
 		int value = getConst();
 		//printf("\nvalue is%d\n", value);
 		fac2->cnt = value;
-		//printf("\ncurrent is %d", currentToken());
+		
 		nextToken();
+		//printf("\ncurrent is %d", currentToken());
 	}else if(current==LPAREN){
 		//expr
 		nextToken();
@@ -843,7 +863,7 @@ void parseFactor(struct nodeFactor *fac2){
 		nextToken();
 		
 	}
-	//printf("\ncurrent is %d", currentToken());
+	//printf("\nparse Fact current is %d", currentToken());
 	
 }
 
@@ -854,17 +874,20 @@ void parseIf(struct nodeIf *i2){
 	//printf("\ncurrent is %d\n", currentToken());
 	i2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 	parseCond(i2->c);
-	//then
 	nextToken();
+	char value[10];
+	getId(value);
 	i2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 	parseStmtSeq(i2->ss);
 	//else or end
-	int current = nextToken();
+	int current = currentToken();
+	
 	if(current == ELSE){
 		i2->ss2=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
+		
 		parseStmtSeq(i2->ss2);
-		//END
-		nextToken();
+		//nextToken();
+		//printf("\ncurrent is %d\n",currentToken());
 	}
 }
 
@@ -873,26 +896,29 @@ void parseCond(struct nodeCond *c2){
 	int current = currentToken();
 	if(current==CONST || current==ID || current==IN || current==LPAREN){
 		c2->cmp=(struct nodeCmpr*) calloc(1, sizeof(struct nodeCmpr));
-		parseCmpr(c2->cmp);
+		parseCmpr(c2->cmp); //then or-then
 
-		int current_2= nextToken();
+		int current_2= currentToken();
 		//printf("\nloop current is %d\n", currentToken());
 		if(current_2==OR || current_2==AND){
-
-			c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
-			c2->sign=(char*) calloc(1, sizeof(char));
-			parseCond(c2->c);
 
 			if(current_2==OR){
 				strcpy(c2->sign, "OR");
 			}else if(current_2==AND){
 				strcpy(c2->sign, "AND");
 			}
+			
+			c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
+			c2->sign=(char*) calloc(1, sizeof(char));
+			nextToken();
+			parseCond(c2->c);
 		}
 
 	}else if(current ==NOT){
 
-	}
+	} //THEN (1) then(1!)
+	
+
 }
 
 void parseLoop(struct nodeLoop *lp2){
@@ -905,20 +931,16 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 	//printf("\nloop current is %d\n", currentToken());
 	parseExpr(cmp2->exp);
 	//sign = or <
-	int current=nextToken();
+	int current=currentToken();
 	//printf("\nloop current is %d\n", currentToken());
 	if(current == EQUAL){
 		strcpy(cmp2->sign, "=");
 	}else if (current == LESS){
 		strcpy(cmp2->sign, "<");
 	}
-
-	//expr
+	//exprs
 	nextToken();
-	//printf("\nloop current is %d\n", getConst());
 	parseExpr(cmp2->exp2);
-	//printf("\nloop current is %d\n", currentToken());
-	nextToken();
 	//printf("\nloop current is %d\n", currentToken());
 }
 
