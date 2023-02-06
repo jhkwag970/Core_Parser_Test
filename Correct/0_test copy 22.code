@@ -8,4 +8,5 @@ begin
 		c :=7;
 		a:=8;
 	end
+	x:=9;
 end
