@@ -32,6 +32,7 @@ void parseCmpr();
 void printIntArray();
 void printRecArray();
 void varChecker();
+void varUndeclaredChecker();
 
 static struct nodeProcedure *p;
 static char intArray[VNUM][VNAME];
@@ -841,6 +842,8 @@ void parseStmt(struct nodeStmt *s2){
 void parseAssign(struct nodeAssign *ass2){
 	char value[10];
 	getId(value);
+	varUndeclaredChecker(value);
+
 	ass2->id=(char*) calloc(10, sizeof(char));
 	strcpy(ass2->id, value);
 
@@ -902,6 +905,7 @@ void parseAssign(struct nodeAssign *ass2){
 
 			char value[10];
 			getId(value);
+			varUndeclaredChecker(value);
 			
 			ass2->id2=(char*) calloc(10, sizeof(char));
 			strcpy(ass2->id2, value);
@@ -989,10 +993,13 @@ void parseTerm(struct nodeTerm *tm2){
 
 void parseFactor(struct nodeFactor *fac2){
 	int current = currentToken();
+	
 	if(current==ID){
 
 		char value[10];
 		getId(value);
+		varUndeclaredChecker(value);
+
 		fac2->id=(char*) calloc(10, sizeof(char));
 		strcpy(fac2->id, value);
 
@@ -1232,6 +1239,22 @@ void varChecker(char *value){
 			exit(0);
 		}
 	}
+}
+
+void varUndeclaredChecker(char *value){
+	int i, j;
+	for(i=0; i < intIdx;i++){
+		if((!strcmp(intArray[i], value))){
+			return;
+		}
+	}
+	for(j=0; j < recIdx; j++){
+		if((!strcmp(recArray[j], value))){
+			return;
+		}
+	}
+	printf("Error: %s is undeclared variable\n", value);
+	exit(0);
 }
 
 
