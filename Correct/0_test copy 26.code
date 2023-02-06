@@ -1,5 +1,7 @@
 procedure test5 is
 	integer x;
 begin
-	if x < 10 
+	if x < 10 then
+		x:=10;
+	end
 end

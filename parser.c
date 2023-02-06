@@ -932,7 +932,7 @@ void parseIndex(struct nodeIndex *idx2){
 		parseExpr(idx2->exp);
 
 		//RBRACE check
-		//expectedToken(RBRACE);
+		expectedToken(RBRACE);
 	}
 	//epsilon
 }
@@ -1039,6 +1039,7 @@ void parseFactor(struct nodeFactor *fac2){
 	
 }
 
+// (x)
 void parseIf(struct nodeIf *i2){
 
 	//condition
@@ -1046,10 +1047,9 @@ void parseIf(struct nodeIf *i2){
 	i2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 	parseCond(i2->c);
 
-
-
+	expectedToken(THEN);
 	nextToken();
-
+	
 	i2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
 	parseStmtSeq(i2->ss);
 	int current = currentToken();
@@ -1059,6 +1059,8 @@ void parseIf(struct nodeIf *i2){
 		nextToken();
 		parseStmtSeq(i2->ss2);
 	}
+
+	expectedToken(END);
 }
 
 //(x)
