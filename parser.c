@@ -745,10 +745,8 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 }
 
 void parseStmtSeq(struct nodeStmtSeq *ss2){
-	////printf("\ncurrent is %d", currentToken());
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
 
-	////printf("\ncurrent is %d\n",currentToken());
 	parseStmt(ss2->s);
 	//END or Not
 	//printf("Stmt current is %d\n",currentToken());
@@ -766,23 +764,26 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 
 void parseStmt(struct nodeStmt *s2){
 	
-	//nextToken();
+
 	int current=currentToken();
 	
 	if(current==ID){
 		s2->ass=(struct nodeAssign*) calloc(1, sizeof(struct nodeAssign));
 		parseAssign(s2->ass);
-    //printf("Assign current is %d\n", currentToken());
 	}else if(current==IF){
 		s2->i=(struct nodeIf*) calloc(1, sizeof(struct nodeIf));
 		parseIf(s2->i);
-		////printf("\nstmt current is %d\n", currentToken()); //THENc
 	}else if(current==WHILE){
 		s2->lp=(struct nodeLoop*) calloc(1, sizeof(struct nodeLoop));
 		parseLoop(s2->lp);
 	}else if(current==OUT){
 		s2->out=(struct nodeOut*) calloc(1, sizeof(struct nodeOut));
 		parseOut(s2->out);
+	}else{
+		char actualStr[20];
+		tokenString(actualStr, current);
+		printf("Error: Expected ID, IF, WHILE, OUT but %s\n", actualStr);
+		exit(0);
 	}
   
 	
