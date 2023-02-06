@@ -2,5 +2,10 @@ procedure test01 is
 	integer x;
 	record y;
 begin
-	x:=new record[10];
+	if x < y then
+		while 10  < x do
+			x := 1;
+		end
+	end
+end
 	

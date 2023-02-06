@@ -650,14 +650,33 @@ void Test_scanner(char* filename){
 //     printf("else stmt id %s\n", p->ss->ss->s->i->ss2->ss->s->ass->id);
 //   printf("else stmt exp %d\n", p->ss->ss->s->i->ss2->ss->s->ass->exp->tm->fac->cnt);
 
+// //if nested while
+//    scanner_open("Correct/0_test copy 25.code");
+//   while (currentToken() != EOS && currentToken() != ERROR) {
+// 	parseProcedure();
+//     nextToken();
+//   }
+//   printf("\n-----------------------------------\n");
+//   printf("procedure Id is %s\n", p->id);
+//   printf("Dec int Id is: %s\n", p->ds->d->di->id);
 
-   scanner_open("Correct/0_test copy 25.code");
+//   printf("if %s\n", p->ss->s->i->c->cmp->exp->tm->fac->id);
+//   printf("if %s\n", p->ss->s->i->c->cmp->sign);
+//   printf("if %s\n", p->ss->s->i->c->cmp->exp2->tm->fac->id);
+
+//   printf("while %d\n",p->ss->s->i->ss->s->lp->c->cmp->exp->tm->fac->cnt);
+//   printf("while %s\n",p->ss->s->i->ss->s->lp->c->cmp->sign);
+//   printf("while %s\n",p->ss->s->i->ss->s->lp->c->cmp->exp2->tm->fac->id);
+//   printf("while %s\n",p->ss->s->i->ss->s->lp->ss->s->ass->id);
+//   printf("while %d\n",p->ss->s->i->ss->s->lp->ss->s->ass->exp->tm->fac->cnt);
+//  scanner_close();
+
+scanner_open("Correct/0_test copy 26.code");
   while (currentToken() != EOS && currentToken() != ERROR) {
 	parseProcedure();
     nextToken();
   }
-
-  scanner_close();
+//scanner_close();
 
   
 // 	scanner_close();
@@ -691,6 +710,19 @@ static void exprChecker(){
 	}
 }
 
+static void declSeqChecker(){
+	int current=currentToken();
+
+	//BEGIN need check
+	if(currentToken() != INTEGER && currentToken() != RECORD && currentToken() != BEGIN){
+		char actualStr[20];
+		tokenString(actualStr, current);
+
+		printf("Error: expected INTEGER or RECORD or BEGIN but recieved %s\n", actualStr);
+		exit(0);
+	}
+}
+
 
 /*
 *
@@ -712,7 +744,6 @@ void parseProcedure(){
 	nextToken();
 	expectedToken(ID);
 
-
 	char value[10];
 	getId(value);
 	p->id=(char*) calloc(10, sizeof(char));
@@ -724,41 +755,41 @@ void parseProcedure(){
 
 	//ID
 	nextToken();
-
 	parseDeclSeq(p->ds);
 
 	nextToken();
 	//Later check 
 
 	parseStmtSeq(p->ss);
+
+	//end checker
 }
 
+//(x)
 void parseDeclSeq(struct nodeDeclSeq *ds2){
+	
+	declSeqChecker();
 	ds2->d=(struct nodeDecl*) calloc(1, sizeof(struct nodeDecl));
-	
-	parseDecl(ds2->d);
-	nextToken();
-	
-	if(currentToken() != INTEGER && currentToken() != RECORD && currentToken() != BEGIN){
-		char actualStr[20];
-		tokenString(actualStr, currentToken());
 
-		printf("Error: expected INTEGER or RECORD but recieved %s\n", actualStr);
-        exit(0);
-	}
+	parseDecl(ds2->d);
+
+	nextToken();
 
 	if(currentToken() == INTEGER || currentToken() == RECORD){
 		ds2->ds=(struct nodeDeclSeq*) calloc(1, sizeof(struct nodeDeclSeq));
 		parseDeclSeq(ds2->ds);
-
 	}
+	declSeqChecker();
 
 }
 
 void parseStmtSeq(struct nodeStmtSeq *ss2){
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
 
+	// (working)
 	parseStmt(ss2->s);
+
+
 	//END or Not
 	//printf("Stmt current is %d\n",currentToken());
     nextToken();
@@ -773,6 +804,7 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	
 }
 
+// (working)
 void parseStmt(struct nodeStmt *s2){
 	
 
@@ -780,6 +812,7 @@ void parseStmt(struct nodeStmt *s2){
 	
 	if(current==ID){
 		s2->ass=(struct nodeAssign*) calloc(1, sizeof(struct nodeAssign));
+		//(x)
 		parseAssign(s2->ass);
 	}else if(current==IF){
 		s2->i=(struct nodeIf*) calloc(1, sizeof(struct nodeIf));
@@ -800,6 +833,7 @@ void parseStmt(struct nodeStmt *s2){
 	
 }
 
+//(x)
 void parseAssign(struct nodeAssign *ass2){
 	char value[10];
 	getId(value);
@@ -833,6 +867,7 @@ void parseAssign(struct nodeAssign *ass2){
 			parseIndex(ass2->idx);
 			parseExpr(ass2->exp);
 			
+			expectedToken(SEMICOLON);
 		}else if(current_2==NEW){
 			//id := new record [<expr>];
 			ass2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -854,19 +889,23 @@ void parseAssign(struct nodeAssign *ass2){
 			//Semi-colon
 			nextToken();
 			expectedToken(SEMICOLON);
-			
+
 		}else if(current_2==RECORD){
 			//id := record id; 
 			//id
 			nextToken();
+			expectedToken(ID);
+
 			char value[10];
 			getId(value);
-			////printf("\nid is %s\n", value);
+			
 			ass2->id2=(char*) calloc(10, sizeof(char));
 			strcpy(ass2->id2, value);
-			// //printf("\nvalue is %s", ass2->id2);
-			// //printf("\nvalue is %s", ass2->id);
+			
+			//Semi-colon
 			nextToken();
+			expectedToken(SEMICOLON);
+
 		}else{
 			char actualStr[20];
 			tokenString(actualStr, current_2);
@@ -1001,12 +1040,14 @@ void parseFactor(struct nodeFactor *fac2){
 }
 
 void parseIf(struct nodeIf *i2){
-	////printf("\ncurrent is %d\n", currentToken());
+
 	//condition
 	nextToken();
-	////printf("\ncurrent is %d\n", currentToken());
 	i2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 	parseCond(i2->c);
+
+
+
 	nextToken();
 
 	i2->ss=(struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
@@ -1021,7 +1062,6 @@ void parseIf(struct nodeIf *i2){
 }
 
 void parseCond(struct nodeCond *c2){
-	//printf("\ncurrent is %d\n", getConst());
 	int current = currentToken();
 	if(current==CONST || current==ID || current==IN || current==LPAREN){
 		c2->cmp=(struct nodeCmpr*) calloc(1, sizeof(struct nodeCmpr));
@@ -1050,7 +1090,14 @@ void parseCond(struct nodeCond *c2){
 		nextToken();
 		c2->c=(struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 		parseCond(c2->c);
-	} //THEN (1) then(1!)
+	}else{
+		char actualStr[20];
+		tokenString(actualStr, current);
+		printf("Error: Expected EXPR token or NOT but %s\n", actualStr);
+		exit(0);
+	} 
+	
+	//THEN (1) then(1!)
 	//printf("\nloop current is %d\n", currentToken());
 
 }
@@ -1075,16 +1122,21 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 	cmp2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	cmp2->exp2=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	cmp2->sign =(char*) calloc(1, sizeof(char));
-	////printf("\nloop current is %d\n", currentToken());
+	
 	parseExpr(cmp2->exp);
 	//sign = or <
 	int current=currentToken();
-	////printf("\nloop current is %d\n", currentToken());
 	if(current == EQUAL){
 		strcpy(cmp2->sign, "=");
 	}else if (current == LESS){
 		strcpy(cmp2->sign, "<");
+	}else{
+		char actualStr[20];
+		tokenString(actualStr, current);
+		printf("Error: Expected EXPR token or NOT but %s\n", actualStr);
+		exit(0);
 	}
+
 	//exprs
 	nextToken();
 	parseExpr(cmp2->exp2);
