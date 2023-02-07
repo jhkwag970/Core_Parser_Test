@@ -2,7 +2,7 @@
 
 ### Submitting files
 <ol>
-  <li>main.c: Recieving the file name as argument and pass the file name to the parser to parse the program into the parseTree</li>
+  <li><b>main.c</b>: Recieving the file name as argument and pass the file name to the parser to parse the program into the parseTree</li>
   <li>parser.c: Recieving the file name from the main and processing the parsing</li>
   <li>parser.h: header file for parser.c</li>
   <li>printer.c: print the all the nodes of tree appropriaty like original program</li>
