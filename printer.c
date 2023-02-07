@@ -193,7 +193,15 @@ void printCmpr(struct nodeCmpr *cmp2){
 }
 
 void printLoop(struct nodeLoop *lp2){
-
+	indents(indentSize);
+	printf("while ");
+	printCond(lp2->c);
+	printf(" do\n");
+	indentSize+=TAB;
+	printStmtSeq(lp2->ss);
+	indentSize-=TAB;
+	indents(indentSize);
+	printf("end\n");
 }
 
 void printOut(struct nodeOut *out2){

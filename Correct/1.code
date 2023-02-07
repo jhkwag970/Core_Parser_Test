@@ -1,13 +1,10 @@
-procedure test1 is
-	record x;
-	record y;
+procedure test15 is
+	integer x;
+	integer y;
 	integer z;
-	record s;
 begin
-	if x=y then
-		x:=0;
-	else
-		x := 5;
+	while 1 < z do
+		z := z-1;
+		x := y;
 	end
-	out(x);
 end
