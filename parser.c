@@ -87,6 +87,12 @@ static void tokenString(char* str, int current) {
 	}
 }
 
+//scanner:
+//	scan throug the given filename and make parseTree.
+//params:
+//	char* filename: name of file that needs to parse
+//returns:
+//	NA
 void scanner(char* filename){
 	// printf("------------------------\n");
 	// printf("filename: %s\n", filename);
@@ -115,6 +121,12 @@ static void expectedToken(int expected) {
     }
 }
 
+//exprChecker:
+//	if currentToken is not one of expr first set (ID, CONST, LPAREN, IN), return expr error
+//params:
+//	NA
+//returns:
+//	NA
 static void exprChecker(){
 	int current=currentToken();
 
@@ -135,7 +147,7 @@ static void exprChecker(){
 */
 
 
-//(x)
+//parseProcedure
 void parseProcedure(){
 
 	//procedure check
@@ -176,7 +188,7 @@ void parseProcedure(){
 	expectedToken(EOS);
 }
 
-//(x)
+//parseDeclSeq
 void parseDeclSeq(struct nodeDeclSeq *ds2){
 	
 	if(currentToken() != INTEGER && currentToken() != RECORD){
@@ -199,7 +211,7 @@ void parseDeclSeq(struct nodeDeclSeq *ds2){
 
 }
 
-//(x)
+//parseStmtSeq
 void parseStmtSeq(struct nodeStmtSeq *ss2){
 	ss2->s=(struct nodeStmt*) calloc(1, sizeof(struct nodeStmt));
 
@@ -215,7 +227,7 @@ void parseStmtSeq(struct nodeStmtSeq *ss2){
 	
 }
 
-// (x)
+// parseStmt
 void parseStmt(struct nodeStmt *s2){
 	
 
@@ -246,7 +258,7 @@ void parseStmt(struct nodeStmt *s2){
 
 }
 
-//(x)
+//parseAssign
 void parseAssign(struct nodeAssign *ass2){
 	char value[10];
 	getId(value);
@@ -342,7 +354,7 @@ void parseAssign(struct nodeAssign *ass2){
 	
 }
 
-//(X)
+//parseIndex
 void parseIndex(struct nodeIndex *idx2){
 
 	if(currentToken() == LBRACE){
@@ -359,7 +371,7 @@ void parseIndex(struct nodeIndex *idx2){
 	//epsilon
 }
 
-//(x)
+//parseExpr
 void parseExpr(struct nodeExpr *expr2){
 	exprChecker();
 	expr2->tm = (struct nodeTerm*) calloc(1, sizeof(struct nodeTerm));
@@ -381,7 +393,7 @@ void parseExpr(struct nodeExpr *expr2){
 	
 }
 
-//(x)
+//parseTerm
 void parseTerm(struct nodeTerm *tm2){
 	tm2->fac=(struct nodeFactor*) calloc(1, sizeof(struct nodeFactor));
 	parseFactor(tm2->fac);
@@ -402,8 +414,7 @@ void parseTerm(struct nodeTerm *tm2){
 	}
 }
 
-//(x)
-
+// parseFactor
 void parseFactor(struct nodeFactor *fac2){
 	int current = currentToken();
 	fac2->cnt=CNTNULL;
@@ -465,7 +476,7 @@ void parseFactor(struct nodeFactor *fac2){
 	
 }
 
-// (x)
+// parseIf
 void parseIf(struct nodeIf *i2){
 
 	//condition
@@ -489,7 +500,7 @@ void parseIf(struct nodeIf *i2){
 	expectedToken(END);
 }
 
-//(x)
+//parseConditon
 void parseCond(struct nodeCond *c2){
 	int current = currentToken();
 	if(current==CONST || current==ID || current==IN || current==LPAREN){
@@ -523,7 +534,7 @@ void parseCond(struct nodeCond *c2){
 	} 
 }
 
-//(x)
+//parseLoop
 void parseLoop(struct nodeLoop *lp2){
 	lp2->c = (struct nodeCond*) calloc(1, sizeof(struct nodeCond));
 	lp2->ss= (struct nodeStmtSeq*) calloc(1, sizeof(struct nodeStmtSeq));
@@ -542,7 +553,7 @@ void parseLoop(struct nodeLoop *lp2){
 	expectedToken(END);
 }
 
-//(x)
+//parseCmpr
 void parseCmpr(struct nodeCmpr  *cmp2){
 	cmp2->exp=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
 	cmp2->exp2=(struct nodeExpr*) calloc(1, sizeof(struct nodeExpr));
@@ -568,7 +579,7 @@ void parseCmpr(struct nodeCmpr  *cmp2){
 	////printf("\nloop current is %d\n", currentToken());
 }
 
-//(x)
+//parseOut
 void parseOut(struct nodeOut *out){
 	//LPAREN
 	nextToken();
@@ -586,7 +597,7 @@ void parseOut(struct nodeOut *out){
 	expectedToken(SEMICOLON);
 }
 
-//(x)
+//parseDecl
 void parseDecl(struct nodeDecl *d2){
 	if(currentToken() == INTEGER){
 		d2->di=(struct nodeDeclInteger*) calloc(1, sizeof(struct nodeDeclInteger));
@@ -600,7 +611,7 @@ void parseDecl(struct nodeDecl *d2){
 
 }
 
-//(x)
+//parseDeclInteger
 void parseDeclInteger(struct nodeDeclInteger *di2){
 	//ID
 	nextToken();
@@ -620,7 +631,7 @@ void parseDeclInteger(struct nodeDeclInteger *di2){
 	expectedToken(SEMICOLON);
 }
 
-//(x)
+//parseDeclRecord
 void parseDeclRecord(struct nodeDeclRecord *dr2){
 	nextToken();
 	expectedToken(ID);
@@ -639,6 +650,13 @@ void parseDeclRecord(struct nodeDeclRecord *dr2){
 	expectedToken(SEMICOLON);
 }
 
+
+//varChecker:
+//	If value (ID) is in the Record Array (recArray) and Integer Array (intArray), print duplicate declared error
+//params:
+//	char *value: name of ID
+//returns:
+//	NA
 void varChecker(char *value){
 	int i, j;
 	for(i=0; i < intIdx;i++){
@@ -655,6 +673,12 @@ void varChecker(char *value){
 	}
 }
 
+//varUndeclaredChecker:
+//	If value (ID) is not in the Record Array (recArray) and Integer Array (intArray), print undeclared error
+//params:
+//	char *value: name of ID
+//returns:
+//	NA
 void varUndeclaredChecker(char *value){
 	int i, j;
 	for(i=0; i < intIdx;i++){
@@ -671,6 +695,12 @@ void varUndeclaredChecker(char *value){
 	exit(0);
 }
 
+//varRecChecker:
+//	If value (ID) is not in the Record Array (recArray), print not record error.
+//params:
+//	char *value: name of ID
+//returns:
+//	NA
 void varRecChecker(char *value){
 	int i;
 	for(i=0;i< recIdx;i++){
@@ -682,7 +712,12 @@ void varRecChecker(char *value){
 	exit(0);
 }
 
-
+//printIntArray:
+//	Print all the integer variable names
+//params:
+//	NA
+//returns:
+//	NA
 void printIntArray(){
 	int i;
 	for(i=0; i< intIdx;i++){
@@ -690,6 +725,12 @@ void printIntArray(){
 	}
 }
 
+//printRecArray:
+//	Print all the Record variable names
+//params:
+//	NA
+//returns:
+//	NA
 void printRecArray(){
 	int i;
 	for(i=0; i< recIdx;i++){
