@@ -1,6 +1,6 @@
 # Core_Parser: Jiyong Kwag
 
-#### Submitting files
+### Submitting files
 <ol>
   <li>main.c: Recieving the file name as argument and pass the file name to the parser to parse the program into the parseTree</li>
   <li>parser.c: Recieving the file name from the main and processing the parsing</li>
