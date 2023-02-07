@@ -120,12 +120,15 @@ void test_scanner(char* filename){
 }
 
 void scanner(char* filename){
+	printf("------------------------\n");
 	printf("filename: %s\n", filename);
 	scanner_open(filename);
 	intIdx=0;
 	recIdx=0;
 	parseProcedure();
-	printf("parser %d\n", p);
+
+	//printf("parser %d\n", p);
+	
 	scanner_close();
 }
 
