@@ -53,6 +53,7 @@ void printTree(){
 	//printf("printer %d\n", p);
 	indentSize=TAB;
 	printProcedure();
+	free(p);
 }
 
 void printProcedure(){
@@ -66,7 +67,10 @@ void printProcedure(){
 	printStmtSeq(p->ss);
 
 	printf("end");
-	
+
+	free(p->ds);
+	free(p->ss);
+	free(p->id);
 }
 
 
@@ -74,26 +78,35 @@ void printDeclSeq(struct nodeDeclSeq *ds2){
 	printDecl(ds2->d);
 	if(ds2->ds != NULL){
 		printDeclSeq(ds2->ds);
+		free(ds2->ds);
 	}
+
+	free(ds2->d);
 }
 
 void printDecl(struct nodeDecl *d2){
 	if(d2->di != NULL){
 		printDeclInteger(d2->di);
+		free(d2->di);
 	}
 	if(d2->dr != NULL){
 		printDeclRecord(d2->dr);
+		free(d2->dr);
 	}
 }
 
 void printDeclInteger(struct nodeDeclInteger *di2){
 	indents(indentSize);
 	printf("integer %s;\n",di2->id);
+
+	free(di2->id);
 }
 
 void printDeclRecord(struct nodeDeclRecord *dr2){
 	indents(indentSize);
 	printf("record %s;\n",dr2->id);
+
+	free(dr2->id);
 }
 
 void printStmtSeq(struct nodeStmtSeq *ss2){
@@ -101,21 +114,28 @@ void printStmtSeq(struct nodeStmtSeq *ss2){
 
 	if(ss2->ss != NULL){
 		printStmtSeq(ss2->ss);
+		free(ss2->ss);
 	}
+
+	free(ss2->s);
 }
 
 void printStmt(struct nodeStmt *s2){
 	if(s2->ass != NULL){
 		printAssign(s2->ass);
+		free(s2->ass);
 	}
 	if(s2->i != NULL){
 		printIf(s2->i);
+		free(s2->i);
 	}
 	if(s2->lp != NULL){
 		printLoop(s2->lp);
+		free(s2->lp);
 	}
 	if(s2->out != NULL){
 		printOut(s2->out);
+		free(s2->out);
 	}
 }
 
@@ -126,14 +146,21 @@ void printAssign(struct nodeAssign *ass2){
 		printIndex(ass2->idx);
 		printf(":=");
 		printExpr(ass2->exp);
+
+		free(ass2->idx);
+		free(ass2->exp);
 	}else if(ass2->exp != NULL){
 		printf(":=new record[");
 		printExpr(ass2->exp);
 		printf("]");
+
+		free(ass2->exp);
 	}else if(ass2->id2 != NULL){
 		printf(":=record %s", ass2->id2);
+		free(ass2->id2);
 	}	
 	printf(";\n");
+	free(ass2->id);
 
 }
 
@@ -142,6 +169,7 @@ void printIndex(struct nodeIndex *idx2){
 		printf("[");
 		printExpr(idx2->exp);
 		printf("]");
+		free(idx2->exp);
 	}
 }
 
@@ -159,10 +187,14 @@ void printIf(struct nodeIf *i2){
 		printf("else\n");
 		indentSize+=TAB;
 		printStmtSeq(i2->ss2);
+		free(i2->ss2);
 	}
 	indentSize-=TAB;
 	indents(indentSize);
 	printf("end\n");
+
+	free(i2->c);
+	free(i2->ss);
 }
 
 void printCond(struct nodeCond *c2){
@@ -175,10 +207,15 @@ void printCond(struct nodeCond *c2){
 				printf("and ");
 			}
 			printCond(c2->c);
+
+			free(c2->sign);
+			free(c2->c);
 		}
+		free(c2->cmp);
 	}else{
 		printf("not ");
 		printCond(c2->c);
+		free(c2->c);
 	}
 }
 
@@ -191,6 +228,9 @@ void printCmpr(struct nodeCmpr *cmp2){
 	}
 	printExpr(cmp2->exp2);
 
+	free(cmp2->exp);
+	free(cmp2->sign);
+	free(cmp2->exp2);
 }
 
 void printLoop(struct nodeLoop *lp2){
@@ -203,6 +243,9 @@ void printLoop(struct nodeLoop *lp2){
 	indentSize-=TAB;
 	indents(indentSize);
 	printf("end\n");
+
+	free(lp2->c);
+	free(lp2->ss);
 }
 
 void printOut(struct nodeOut *out2){
@@ -210,6 +253,7 @@ void printOut(struct nodeOut *out2){
 	printf("out(");
 	printExpr(out2->exp);
 	printf(");\n");
+	free(out2->exp);
 }
 
 void printExpr(struct nodeExpr *exp2){
@@ -222,13 +266,16 @@ void printExpr(struct nodeExpr *exp2){
 			printf("-");
 		}
 		printExpr(exp2->exp);
+		free(exp2->exp);
 	}
+	free(exp2->tm);
+	
 
 }
 
 void printTerm(struct nodeTerm *tm2){
 	printFactor(tm2->fac);
-
+	
 	if(tm2->math != NULL){
 		if(!strcmp(tm2->math, "*")){
 			printf("*");
@@ -236,7 +283,9 @@ void printTerm(struct nodeTerm *tm2){
 			printf("/");
 		}
 		printTerm(tm2->tm);
+		free(tm2->tm);
 	}
+	free(tm2->fac);
 	
 }
 
@@ -247,13 +296,16 @@ void printFactor(struct nodeFactor *fac2){
 			printf("[");
 			printExpr(fac2->exp);
 			printf("]");
+			free(fac2->exp);
 		}
+		free(fac2->id);
 	}else if(fac2->cnt != -1){
 		printf("%d", fac2->cnt);
 	}else if(fac2->exp != NULL){
 		printf("(");
 		printExpr(fac2->exp);
 		printf(")");
+		free(fac2->exp);
 	}else{
 		printf("in()");
 	}
