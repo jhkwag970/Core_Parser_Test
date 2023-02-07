@@ -4,5 +4,5 @@ procedure test1 is
 	integer z;
 	record s;
 begin
-	x:=s[3*2/(3-1)];
+	out(3);
 end

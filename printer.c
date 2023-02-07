@@ -153,7 +153,10 @@ void printLoop(struct nodeLoop *lp2){
 }
 
 void printOut(struct nodeOut *out2){
-
+	indents(indentSize);
+	printf("out(");
+	printExpr(out2->exp);
+	printf(");\n");
 }
 
 void printExpr(struct nodeExpr *exp2){
