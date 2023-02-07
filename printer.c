@@ -120,17 +120,17 @@ void printStmt(struct nodeStmt *s2){
 
 void printAssign(struct nodeAssign *ass2){
 	indents(indentSize);
-	printf("%s ", ass2->id);
+	printf("%s", ass2->id);
 	if(ass2->idx != NULL){
 		printIndex(ass2->idx);
-		printf(":= ");
+		printf(":=");
 		printExpr(ass2->exp);
 	}else if(ass2->exp != NULL){
-		printf(":= new record [");
+		printf(":=new record[");
 		printExpr(ass2->exp);
 		printf("]");
 	}else if(ass2->id2 != NULL){
-		printf(":= record %s", ass2->id2);
+		printf(":=record %s", ass2->id2);
 	}	
 	printf(";\n");
 
