@@ -148,12 +148,15 @@ void printIf(struct nodeIf *i2){
 	indents(indentSize);
 	printf("if ");
 	printCond(i2->c);
-	printf("then\n");
+	printf(" then\n");
 	indentSize+=TAB;
 	printStmtSeq(i2->ss);
 
 	if(i2->ss2 != NULL){
+		indentSize-=TAB;
+		indents(indentSize);
 		printf("else\n");
+		indentSize+=TAB;
 		printStmtSeq(i2->ss2);
 	}
 	indentSize-=TAB;

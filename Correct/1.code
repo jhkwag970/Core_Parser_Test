@@ -4,8 +4,10 @@ procedure test1 is
 	integer z;
 	record s;
 begin
-	if 1 = 1 then
-		x := 10;
+	if x=y then
+		x:=0;
+	else
+		x := 5;
 	end
 	out(x);
 end
