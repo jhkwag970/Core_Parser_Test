@@ -10,6 +10,7 @@
 
 #define VNAME 20
 #define VNUM 20
+#define CNTNULL -1
 
 
 void parseProcedure();
@@ -437,7 +438,7 @@ void parseTerm(struct nodeTerm *tm2){
 
 void parseFactor(struct nodeFactor *fac2){
 	int current = currentToken();
-	
+	fac2->cnt=CNTNULL;
 	if(current==ID){
 
 		char value[10];

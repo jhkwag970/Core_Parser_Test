@@ -29,6 +29,7 @@ void printCond();
 void printCmpr();
 
 extern struct nodeProcedure *p;
+static int indentSize;
 
 /*
 *
@@ -50,6 +51,7 @@ static void indents(int indent) {
 
 void printTree(){
 	//printf("printer %d\n", p);
+	indentSize=TAB;
 	printProcedure();
 }
 
@@ -84,15 +86,99 @@ void printDecl(struct nodeDecl *d2){
 }
 
 void printDeclInteger(struct nodeDeclInteger *di2){
-	indents(TAB);
+	indents(indentSize);
 	printf("integer %s;\n",di2->id);
 }
 
 void printDeclRecord(struct nodeDeclRecord *dr2){
-	indents(TAB);
+	indents(indentSize);
 	printf("record %s;\n",dr2->id);
 }
 
-void printStmtSeq(){
+void printStmtSeq(struct nodeStmtSeq *ss2){
+	printStmt(ss2->s);
 
+	if(ss2->ss != NULL){
+		printStmtSeq(ss2->ss);
+	}
+}
+
+void printStmt(struct nodeStmt *s2){
+	if(s2->ass != NULL){
+		printAssign(s2->ass);
+	}
+	if(s2->i != NULL){
+		printIf(s2->i);
+	}
+	if(s2->lp != NULL){
+		printLoop(s2->lp);
+	}
+	if(s2->out != NULL){
+		printOut(s2->out);
+	}
+}
+
+void printAssign(struct nodeAssign *ass2){
+	indents(indentSize);
+	printf("%s ", ass2->id);
+	if(ass2->idx != NULL){
+		printIndex(ass2->idx);
+		printf(":= ");
+		printExpr(ass2->exp);
+	}else if(ass2->exp != NULL){
+		printf(":= new record [");
+		printExpr(ass2->exp);
+		printf("]");
+	}else if(ass2->id2 != NULL){
+		printf(":= record %s", ass2->id2);
+	}	
+	printf(";\n");
+
+}
+
+void printIndex(struct nodeIndex *idx2){
+	if(idx2->exp != NULL){
+		printf("[");
+		printExpr(idx2->exp);
+		printf("]");
+	}
+}
+
+void printIf(struct nodeIf *i2){
+
+}
+
+void printLoop(struct nodeLoop *lp2){
+
+}
+
+void printOut(struct nodeOut *out2){
+
+}
+
+void printExpr(struct nodeExpr *exp2){
+	printTerm(exp2->tm);
+}
+
+void printTerm(struct nodeTerm *tm2){
+	printFactor(tm2->fac);
+}
+
+void printFactor(struct nodeFactor *fac2){
+	if(fac2->id != NULL){
+		printf("%s", fac2->id);
+		if(fac2->exp != NULL){
+			printf("[");
+			printExpr(fac2->exp);
+			printf("]");
+		}
+	}else if(fac2->cnt != -1){
+		printf("%d", fac2->cnt);
+	}else if(fac2->exp != NULL){
+		printf("(");
+		printExpr(fac2->exp);
+		printf(")");
+	}else{
+		printf("in()");
+	}
 }

@@ -5,8 +5,8 @@
 
 #include "parser.h"
 #include "printer.h"
-// #include "core.h"
-// #include "tree.h"
+
+#define TMP 5
 
 int main(int argc, char *argv[]) {  
 
@@ -14,7 +14,6 @@ int main(int argc, char *argv[]) {
 
   scanner("Correct/1.code");
   printTree();
-
 
   // scanner("Correct/2.code");
   // scanner("Correct/3.code");
