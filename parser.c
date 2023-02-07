@@ -14,27 +14,27 @@
 
 
 void parseProcedure();
-void parseDeclSeq();
-void parseStmtSeq();
-void parseDecl();
-void parseDeclInteger();
-void parseDeclRecord();
-void parseStmt();
-void parseAssign();
-void parseIf();
-void parseLoop();
-void parseOut();
-void parseIndex();
-void parseExpr();
-void parseTerm();
-void parseFactor();
-void parseCond();
-void parseCmpr();
+void parseDeclSeq(struct nodeDeclSeq *ds2);
+void parseStmtSeq(struct nodeStmtSeq *ss2);
+void parseDecl(struct nodeDecl *d2);
+void parseDeclInteger(struct nodeDeclInteger *di2);
+void parseDeclRecord(struct nodeDeclRecord *dr2);
+void parseStmt(struct nodeStmt *s2);
+void parseAssign(struct nodeAssign *ass2);
+void parseIf(struct nodeIf *i2);
+void parseLoop(struct nodeLoop *lp2);
+void parseOut(struct nodeOut *out2);
+void parseIndex(struct nodeIndex *idx2);
+void parseExpr(struct nodeExpr *exp2);
+void parseTerm(struct nodeTerm *tm2);
+void parseFactor(struct nodeFactor *fac2);
+void parseCond(struct nodeCond *c2);
+void parseCmpr(struct nodeCmpr *cmp2);
 void printIntArray();
 void printRecArray();
-void varChecker();
-void varUndeclaredChecker();
-void varRecChecker();
+void varChecker(char *value);
+void varUndeclaredChecker(char *value);
+void varRecChecker(char *value);
 
 struct nodeProcedure *p;
 static char intArray[VNUM][VNAME];

@@ -11,22 +11,22 @@
 #define TAB 4
 
 void printProcedure();
-void printDeclSeq();
-void printStmtSeq();
-void printDecl();
-void printDeclInteger();
-void printDeclRecord();
-void printStmt();
-void printAssign();
-void printIf();
-void printLoop();
-void printOut();
-void printIndex();
-void printExpr();
-void printTerm();
-void printFactor();
-void printCond();
-void printCmpr();
+void printDeclSeq(struct nodeDeclSeq *ds2);
+void printStmtSeq(struct nodeStmtSeq *ss2);
+void printDecl(struct nodeDecl *d2);
+void printDeclInteger(struct nodeDeclInteger *di2);
+void printDeclRecord(struct nodeDeclRecord *dr2);
+void printStmt(struct nodeStmt *s2);
+void printAssign(struct nodeAssign *ass2);
+void printIf(struct nodeIf *i2);
+void printLoop(struct nodeLoop *lp2);
+void printOut(struct nodeOut *out2);
+void printIndex(struct nodeIndex *idx2);
+void printExpr(struct nodeExpr *exp2);
+void printTerm(struct nodeTerm *tm2);
+void printFactor(struct nodeFactor *fac2);
+void printCond(struct nodeCond *c2);
+void printCmpr(struct nodeCmpr *cmp2);
 
 extern struct nodeProcedure *p;
 static int indentSize;
@@ -66,6 +66,7 @@ void printProcedure(){
 	printStmtSeq(p->ss);
 
 	printf("end");
+	
 }
 
 
