@@ -158,10 +158,30 @@ void printOut(struct nodeOut *out2){
 
 void printExpr(struct nodeExpr *exp2){
 	printTerm(exp2->tm);
+
+	if(exp2->math != NULL){
+		if(!strcmp(exp2->math, "+")){
+			printf("+");
+		}else if(!strcmp(exp2->math, "-")){
+			printf("-");
+		}
+		printExpr(exp2->exp);
+	}
+
 }
 
 void printTerm(struct nodeTerm *tm2){
 	printFactor(tm2->fac);
+
+	if(tm2->math != NULL){
+		if(!strcmp(tm2->math, "*")){
+			printf("*");
+		}else if(!strcmp(tm2->math, "/")){
+			printf("/");
+		}
+		printTerm(tm2->tm);
+	}
+	
 }
 
 void printFactor(struct nodeFactor *fac2){
