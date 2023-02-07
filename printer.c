@@ -145,6 +145,47 @@ void printIndex(struct nodeIndex *idx2){
 }
 
 void printIf(struct nodeIf *i2){
+	indents(indentSize);
+	printf("if ");
+	printCond(i2->c);
+	printf("then\n");
+	indentSize+=TAB;
+	printStmtSeq(i2->ss);
+
+	if(i2->ss2 != NULL){
+		printf("else\n");
+		printStmtSeq(i2->ss2);
+	}
+	indentSize-=TAB;
+	indents(indentSize);
+	printf("end\n");
+}
+
+void printCond(struct nodeCond *c2){
+	if(c2->cmp !=NULL){
+		printCmpr(c2->cmp);
+		if(c2->c != NULL){
+			if(!strcmp(c2->sign, "or")){
+				printf("or ");
+			}else if(!strcmp(c2->sign, "and")){
+				printf("and ");
+			}
+			printCond(c2->c);
+		}
+	}else{
+		printf("not ");
+		printCond(c2->c);
+	}
+}
+
+void printCmpr(struct nodeCmpr *cmp2){
+	printExpr(cmp2->exp);
+	if(!strcmp(cmp2->sign, "=")){
+		printf("=");
+	}else if(!strcmp(cmp2->sign, "<")){
+		printf("<");
+	}
+	printExpr(cmp2->exp2);
 
 }
 
