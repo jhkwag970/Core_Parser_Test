@@ -35,7 +35,7 @@ void varChecker();
 void varUndeclaredChecker();
 void varRecChecker();
 
-static struct nodeProcedure *p;
+struct nodeProcedure *p;
 static char intArray[VNUM][VNAME];
 static char recArray[VNUM][VNAME];
 
@@ -88,7 +88,7 @@ static void tokenString(char* str, int current) {
 }
 
 void test_scanner(char* filename){
-		// Initialize the scanner
+  // Initialize the scanner
   scanner_open(filename);
   //scanner_open("Correct/1.code");
 
@@ -120,9 +120,13 @@ void test_scanner(char* filename){
 }
 
 void scanner(char* filename){
-		// Initialize the scanner
-  //scanner_open(filename);
-
+	printf("filename: %s\n", filename);
+	scanner_open(filename);
+	intIdx=0;
+	recIdx=0;
+	parseProcedure();
+	printf("parser %d\n", p);
+	scanner_close();
 }
 
 // If the current token is something other than expected,
@@ -164,8 +168,7 @@ static void exprChecker(){
 
 //(x)
 void parseProcedure(){
-	intIdx=0;
-	recIdx=0;
+
 	//procedure check
 	expectedToken(PROCEDURE);
 
