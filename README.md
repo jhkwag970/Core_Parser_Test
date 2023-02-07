@@ -3,13 +3,16 @@
 ### Submitting files
 <ol>
   <li><b>main.c:</b> Recieving the file name as argument and pass the file name to the parser to parse the program into the parseTree</li>
-  <li><b>parser.c:</b> Recieving the file name from the main and processing the parsing</li>
+  <li><b>scanner.c:</b> Recieving the file name from the main and processing the tokenizing the program</li>
+  <li><b>scanner.h:</b> header file for parser.c</li>
+  <li><b>parser.c:</b> Recieving the file name from the main and processing the parsing with scanner</li>
   <li><b>parser.h:</b> header file for parser.c</li>
   <li><b>printer.c:</b> print the all the nodes of tree appropriaty like original program</li>
   <li><b>printer.h:</b> header file for printer</li>
   <li><b>core.h:</b> storing enums for keywords, symbols, and others</li>
   <li><b>tree.h:</b> storing structure of struct for parseTree</li>
   <li><b>tester.sh:</b> testing the parser</li>
+  <li><b>README.md:</b> readme file</li>
 </ol>
 
 ### Special Feature

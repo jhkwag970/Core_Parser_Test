@@ -100,7 +100,6 @@ void scanner(char* filename){
 	intIdx=0;
 	recIdx=0;
 	parseProcedure();
-	
 	scanner_close();
 }
 
