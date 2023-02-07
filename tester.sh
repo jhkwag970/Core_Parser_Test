@@ -3,8 +3,8 @@
 runner=$1
 
 echo "Attempting to compile c code..."
-gcc -o main main.c
-#gcc -o main *.c
+#gcc -o main main.c
+gcc -o main *.c
 runner="./main "
 
 score=0
