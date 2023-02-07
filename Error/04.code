@@ -2,6 +2,6 @@ procedure err04 is
 	integer x;
 begin
 	while 1 = 1 do
-		x = 10;
+		x := 10;
 	else
 end

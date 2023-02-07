@@ -1,4 +1,4 @@
-procedure
+procedure err08 is
 	integer x;
 begin
 	x[2] := 10;

@@ -10,38 +10,38 @@
 
 int main(int argc, char *argv[]) {  
 
-	//test_scanner("Correct/0_test copy 19.code");
 
-  scanner("Correct/1.code");
+  scanner(argv[1]);
   printTree();
 
   // scanner("Correct/2.code");
-  // scanner("Correct/3.code");
-  // scanner("Correct/4.code");
-  // scanner("Correct/5.code");
-  // scanner("Correct/6.code");
-  // scanner("Correct/7.code");
-  // scanner("Correct/8.code");
-  // scanner("Correct/9.code");
-  // scanner("Correct/10.code");
-  // scanner("Correct/11.code");
-  // scanner("Correct/12.code");
-  // scanner("Correct/13.code");
-  // scanner("Correct/14.code");
-  // scanner("Correct/15.code");
-  // scanner("Correct/16.code");
-  // scanner("Correct/17.code");
-  // scanner("Correct/18.code");
-  // scanner("Correct/19.code");
-  // scanner("Correct/20.code");
-  // scanner("Correct/21.code");
-  // scanner("Correct/22.code");
-  // scanner("Correct/23.code");
-  // scanner("Correct/24.code");
-  // scanner("Correct/25.code");
-  // scanner("Correct/26.code");
+  // printTree();
+  
+  // scanner("Correct/3.code");printTree();
+  // scanner("Correct/4.code");printTree();
+  // scanner("Correct/5.code");printTree();
+  // scanner("Correct/6.code");printTree();
+  // scanner("Correct/7.code");printTree();
+  // scanner("Correct/8.code");printTree();
+  // scanner("Correct/9.code");printTree();
+  // scanner("Correct/10.code");printTree();
+  // scanner("Correct/11.code");printTree();
+  // scanner("Correct/12.code");printTree();
+  // scanner("Correct/13.code");printTree();
+  // scanner("Correct/14.code");printTree();
+  // scanner("Correct/15.code");printTree();
+  // scanner("Correct/16.code");printTree();
+  // scanner("Correct/17.code");printTree();
+  // scanner("Correct/18.code");printTree();
+  // scanner("Correct/19.code");printTree();
+  // scanner("Correct/20.code");printTree();
+  // scanner("Correct/21.code");printTree();
+  // scanner("Correct/22.code");printTree();
+  // scanner("Correct/23.code");printTree();
+  // scanner("Correct/24.code");printTree();
+  // scanner("Correct/25.code");printTree();
+  // scanner("Correct/26.code");printTree();
 
-  //printf("%s", argv[1]);
 
   return 0;
 }
