@@ -12,7 +12,6 @@
 #define VNUM 20
 #define CNTNULL -1
 
-
 void parseProcedure();
 void parseDeclSeq(struct nodeDeclSeq *ds2);
 void parseStmtSeq(struct nodeStmtSeq *ss2);
@@ -86,38 +85,6 @@ static void tokenString(char* str, int current) {
 	  case ID : strcpy(str, "ID"); break;
 	  case EOS : strcpy(str, "EOS"); break;
 	}
-}
-
-void test_scanner(char* filename){
-  // Initialize the scanner
-  scanner_open(filename);
-  //scanner_open("Correct/1.code");
-
-  while (currentToken() != EOS && currentToken() != ERROR) {
-	
-	int current = currentToken();
-
-	char str[20];
-	tokenString(str, current);
-
-	printf("%s", str);
-
-	if (currentToken() == ID) {
-		char value[20];
-		getId(value);
-		printf("[%s]", value);
-	} else if (currentToken() == CONST) {
-		int value = getConst();
-		printf("[%d]", value);
-	}
-
-	printf("\n");
-
-    // Advance to the next token
-    nextToken();
-  }
-	// Scanning is done, release memory
-  scanner_close();
 }
 
 void scanner(char* filename){
